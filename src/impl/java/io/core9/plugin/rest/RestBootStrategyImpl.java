@@ -20,7 +20,7 @@ public class RestBootStrategyImpl extends CoreBootStrategy
 
 	@Override
 	public Integer getPriority() {
-		return 500;
+		return 600;
 	}
 
 }
