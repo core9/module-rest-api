@@ -1,4 +1,4 @@
-package io.core9.plugin.logger;
+package io.core9.plugin.rest;
 
 import java.util.Collection;
 

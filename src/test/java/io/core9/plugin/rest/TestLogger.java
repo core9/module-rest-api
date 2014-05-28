@@ -1,4 +1,4 @@
-package io.core9.plugin.logger;
+package io.core9.plugin.rest;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
