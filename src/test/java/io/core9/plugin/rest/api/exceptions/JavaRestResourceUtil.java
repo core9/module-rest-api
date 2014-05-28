@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.rest.api;
+package io.core9.plugin.rest.api.exceptions;
 
 import java.text.SimpleDateFormat;
 

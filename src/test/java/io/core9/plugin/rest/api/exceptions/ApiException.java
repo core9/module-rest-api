@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.rest.api;
+package io.core9.plugin.rest.api.exceptions;
 
-public class NotFoundException extends ApiException {
+public class ApiException extends Exception{
 	private int code;
-	public NotFoundException (int code, String msg) {
-		super(code, msg);
+	public ApiException (int code, String msg) {
+		super(msg);
 		this.code = code;
 	}
 }

@@ -16,8 +16,11 @@
 
 package io.core9.plugin.rest.api;
 
-import com.wordnik.swagger.annotations.*;
+import io.core9.plugin.rest.api.exceptions.JavaRestResourceUtil;
+import io.core9.plugin.rest.api.exceptions.NotFoundException;
+import io.core9.plugin.rest.api.model.Pet;
 
+import com.wordnik.swagger.annotations.*;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.*;
