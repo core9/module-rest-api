@@ -21,7 +21,7 @@ public class TestBasicResource {
 	    DefaultJaxrsApiReader reader = new DefaultJaxrsApiReader();
 	    SwaggerConfig config = new SwaggerConfig();
 	    config.setApiVersion("1.0.1");
-	    config.setBasePath("http://localhost:8080");
+	    config.setBasePath("http://localhost:8080/api");
 	    
 	    Option<ApiListing> apiResource = reader.read("/api-docs", PetResource.class, config);
 	    
