@@ -1,5 +1,7 @@
 package io.core9.plugin.test;
 
+import java.io.IOException;
+
 import javax.ws.rs.core.Response;
 
 import io.core9.plugin.rest.api.PetResource;
@@ -7,11 +9,15 @@ import io.core9.plugin.rest.api.exceptions.NotFoundException;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
+
 public class TestPetResource {
 
 	
 	@Test
-	public void test() throws NotFoundException{
+	public void test() throws NotFoundException, JsonMappingException, JsonGenerationException, IOException{
 		
 		PetResource petResource = new PetResource();
 		
@@ -19,7 +25,13 @@ public class TestPetResource {
 		
 		System.out.println(pet.getStatus());
 
-		System.out.println(pet.getEntity());
+		Object entity = pet.getEntity();
+		
+		String pojoAsString = PojoMapper.toJson(entity, true);
+		
+		System.out.println(pojoAsString);
+
+
 	}
 	
 	
