@@ -24,6 +24,9 @@ dependencies {
 	
 	compile 'io.core9:core-api:+'
 
+	// overide some 13 version.
+	compile 'com.google.guava:guava:15.0'
+	
 	
 	compile 'io.core9:module-widgets-api:+'
 	
