@@ -32,9 +32,22 @@ public class RestRouterImpl implements RestRouter {
 			JSONObject jsonObj = (JSONObject)api;
 
 			System.out.println(((JSONObject)((JSONArray)jsonObj.get("operations")).get(0)).get("method"));
-			System.out.println(((JSONObject)((JSONArray)jsonObj.get("operations")).get(0)).get("nickname"));
+			String method = (String) ((JSONObject)((JSONArray)jsonObj.get("operations")).get(0)).get("nickname");
+			System.out.println(method);
 			System.out.println(jsonObj.get("path"));
 
+			String path = (String) jsonObj.get("path");
+			
+			String[] pathParts = path.split("\\{");
+			
+			if(pathParts.length > 1 || request.getMethod().equals("GET")){
+				// arg 1 is id
+				
+				System.out.println("Method is : " + method);
+				System.out.println("executing..");
+			}
+			
+			
 		}
 		
 		Object apiObject = apiResource.getResourceObject();
