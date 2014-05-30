@@ -1,5 +1,11 @@
 package io.core9.plugin.rest;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
@@ -15,8 +21,9 @@ public class RestRouterImpl implements RestRouter {
 	private RestResourceModuleRegistry restResourceModuleRegistry;
 
 	@Override
-	public void getResponse(String basePath, Request request) {
+	public JSONObject getResponse(String basePath, Request request) {
 
+		JSONObject result = new JSONObject();
 		//{controller=pet, id=null, type=findByTags, tags=test}
 		
 		String apiPath = "/" + (String) request.getParams().get("api");
@@ -26,6 +33,8 @@ public class RestRouterImpl implements RestRouter {
 		JSONObject apiJson = apiResource.getApi();
 		
 		JSONArray apis = (JSONArray) apiJson.get("apis");
+		
+		Object apiObject = apiResource.getResourceObject();
 		
 		for(Object api : apis){
 			
@@ -45,15 +54,43 @@ public class RestRouterImpl implements RestRouter {
 				
 				System.out.println("Method is : " + method);
 				System.out.println("executing..");
+				
+				try {
+					 result = RestUtils.getResultFromRequest(apiObject, method, (String) request.getParams().get("arg1"));
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonGenerationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			
 		}
 		
-		Object apiObject = apiResource.getResourceObject();
+		
 		
 		System.out.println(request);
-		
+		return result;
 	}
 	
 
