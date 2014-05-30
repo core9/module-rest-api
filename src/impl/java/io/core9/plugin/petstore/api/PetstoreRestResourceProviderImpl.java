@@ -1,6 +1,6 @@
-package io.core9.plugin.rest;
+package io.core9.plugin.petstore.api;
 
-import io.core9.plugin.petstore.api.PetResource;
+import io.core9.plugin.rest.RestResourceProvider;
 
 import java.util.HashMap;
 import java.util.Map;
