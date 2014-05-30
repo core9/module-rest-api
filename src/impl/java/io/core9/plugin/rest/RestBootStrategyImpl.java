@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang3.ClassUtils;
 
 import io.core9.core.boot.CoreBootStrategy;
+import io.core9.plugin.petstore.api.RestResource;
 import net.xeoh.plugins.base.Plugin;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
@@ -28,7 +29,7 @@ public class RestBootStrategyImpl extends CoreBootStrategy
 					.getClass()); 
 			if (interfaces.contains(RestResourceProvider.class)) {
 				
-				Map<String, Object> resources = ((RestResourceProvider) plugin)
+				Map<String, RestResource> resources = ((RestResourceProvider) plugin)
 						.getResources();
 				
 				restResourceModuleRegistry.setResources(resources);
