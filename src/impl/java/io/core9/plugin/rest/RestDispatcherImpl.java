@@ -31,7 +31,7 @@ public class RestDispatcherImpl  implements RestDispatcher {
 	public void execute() {
 
 		//FIXME authorization ??
-		server.use("/api/:controller((/:type)(/:id)?)?", new Middleware() {
+		server.use("/api/:api((/:arg1)(/:arg2)?)?", new Middleware() {
 			@Override
 			public void handle(Request request) {
 
