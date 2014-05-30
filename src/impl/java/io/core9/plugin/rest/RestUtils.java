@@ -14,14 +14,14 @@ import io.core9.plugin.petstore.api.PetResource;
 public class RestUtils {
 	
 	
-	public static JSONObject getApiFromResource(String apiVersion, String basePath, String rootDir, Class<?> clazz){
+	public static JSONObject getApiFromResource(String apiVersion, String basePath, String apiPath, Class<?> clazz){
 		
 	    DefaultJaxrsApiReader reader = new DefaultJaxrsApiReader();
 	    SwaggerConfig config = new SwaggerConfig();
 	    config.setApiVersion(apiVersion);
 	    config.setBasePath(basePath);
 	    
-	    Option<ApiListing> apiResource = reader.read(rootDir, clazz, config);
+	    Option<ApiListing> apiResource = reader.read(apiPath, clazz, config);
 	    
 
 	    String json = JsonSerializer.asJson(apiResource);

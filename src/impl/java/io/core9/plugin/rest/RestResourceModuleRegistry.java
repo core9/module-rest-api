@@ -10,6 +10,6 @@ public interface RestResourceModuleRegistry extends Core9Plugin{
 
 	void setResources(Map<String, RestResource> resources);
 
-	Object getResource(String className);
+	RestResource getResource(String apiPath);
 
 }

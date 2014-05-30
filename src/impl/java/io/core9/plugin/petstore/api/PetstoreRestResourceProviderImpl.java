@@ -6,6 +6,8 @@ import io.core9.plugin.rest.RestUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wordnik.swagger.config.SwaggerConfig;
+
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 
@@ -16,10 +18,14 @@ public class PetstoreRestResourceProviderImpl implements RestResourceProvider {
 	
 	@Override
 	public Map<String, RestResource> getResources() {
-		//resourceMap.put(RestUtils.getResourcePath(PetResource.class), new PetResource());
-		
-		
+
 		RestResource restResource = new RestResourceImpl();
+		
+	    SwaggerConfig config = new SwaggerConfig();
+	    config.setApiVersion("1.0.1");
+	    config.setBasePath("http://localhost:8080/api");
+		
+		restResource.setResourceObject(config, new PetResource());
 		resourceMap.put(RestUtils.getResourcePath(PetResource.class), restResource );
 		
 		
