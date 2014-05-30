@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 
 import javax.ws.rs.core.Response;
 
-import io.core9.plugin.rest.api.PetResource;
-import io.core9.plugin.rest.api.exceptions.NotFoundException;
+import io.core9.plugin.petstore.api.PetResource;
+import io.core9.plugin.petstore.api.exceptions.NotFoundException;
 
 import org.junit.Test;
 

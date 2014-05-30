@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.rest.api.exceptions;
+package io.core9.plugin.petstore.api.exceptions;
 
 public class NotFoundException extends ApiException {
 	private int code;

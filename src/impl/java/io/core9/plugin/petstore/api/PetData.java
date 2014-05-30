@@ -14,12 +14,13 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.rest.api;
+package io.core9.plugin.petstore.api;
 
 
 import java.util.List;
 import java.util.ArrayList;
-import io.core9.plugin.rest.api.model.*;
+
+import io.core9.plugin.petstore.api.model.*;
 
 public class PetData {
 	static List<Pet> pets = new ArrayList<Pet>();

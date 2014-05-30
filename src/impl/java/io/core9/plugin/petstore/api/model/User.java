@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.rest.api.model;
+package io.core9.plugin.petstore.api.model;
 
 import com.wordnik.swagger.annotations.*;
 

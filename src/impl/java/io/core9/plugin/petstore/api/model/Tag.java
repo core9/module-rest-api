@@ -14,12 +14,30 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.rest.api.exceptions;
+package io.core9.plugin.petstore.api.model;
 
-public class ApiException extends Exception{
-	private int code;
-	public ApiException (int code, String msg) {
-		super(msg);
-		this.code = code;
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "Tag")
+public class Tag {
+	private long id;
+	private String name;
+
+	@XmlElement(name = "id")
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@XmlElement(name = "name")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

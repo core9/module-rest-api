@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.rest.api;
+package io.core9.plugin.petstore.api;
 
-import io.core9.plugin.rest.api.exceptions.JavaRestResourceUtil;
-import io.core9.plugin.rest.api.exceptions.NotFoundException;
-import io.core9.plugin.rest.api.model.Pet;
+import io.core9.plugin.petstore.api.exceptions.JavaRestResourceUtil;
+import io.core9.plugin.petstore.api.exceptions.NotFoundException;
+import io.core9.plugin.petstore.api.model.Pet;
 
 import com.wordnik.swagger.annotations.*;
 
