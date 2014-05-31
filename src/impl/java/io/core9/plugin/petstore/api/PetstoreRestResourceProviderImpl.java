@@ -23,7 +23,7 @@ public class PetstoreRestResourceProviderImpl implements RestResourceProvider {
 		
 	    SwaggerConfig config = new SwaggerConfig();
 	    config.setApiVersion("1.0.1");
-	    config.setBasePath("http://localhost:8080/api");
+	    config.setBasePath("http://swagger/api");
 		
 		restResource.setResourceObject(config, new PetResource());
 		resourceMap.put(RestUtils.getResourcePath(PetResource.class), restResource );

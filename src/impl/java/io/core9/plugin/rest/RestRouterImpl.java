@@ -28,9 +28,21 @@ public class RestRouterImpl implements RestRouter {
 		
 		String apiPath = "/" + (String) request.getParams().get("api");
 		
-		RestResource apiResource = restResourceModuleRegistry.getResource(apiPath);
 		
-		JSONObject apiJson = apiResource.getApi();
+		
+	
+		RestResource apiResource;
+		JSONObject apiJson;
+		if(ifApiRequest(apiPath)){
+			apiResource = restResourceModuleRegistry.getResource(getApiPath(apiPath));
+			
+			apiJson = apiResource.getApi();
+			return apiJson;
+		}
+		
+		apiResource = restResourceModuleRegistry.getResource(apiPath);
+		
+		apiJson = apiResource.getApi();
 		
 		JSONArray apis = (JSONArray) apiJson.get("apis");
 		
@@ -46,6 +58,8 @@ public class RestRouterImpl implements RestRouter {
 			System.out.println(jsonObj.get("path"));
 
 			String path = (String) jsonObj.get("path");
+			String arg1 = (String) request.getParams().get("arg1");
+			String arg2 = (String) request.getParams().get("arg2");
 			
 			String[] pathParts = path.split("\\{");
 			
@@ -56,7 +70,35 @@ public class RestRouterImpl implements RestRouter {
 				System.out.println("executing..");
 				
 				try {
-					 result = RestUtils.getResultFromRequest(apiObject, method, (String) request.getParams().get("arg1"));
+					 result = RestUtils.getResultFromRequest(apiObject, method, arg1);
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonGenerationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else if(method.equals(arg1)){
+				try {
+					result = RestUtils.getResultFromRequest(apiObject, method, arg2);
 				} catch (JsonMappingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -91,6 +133,23 @@ public class RestRouterImpl implements RestRouter {
 		
 		System.out.println(request);
 		return result;
+	}
+
+	private String getApiPath(String apiPath) {
+		String[] apiRequest = apiPath.split("-");
+		return apiRequest[0];
+	}
+
+	private boolean ifApiRequest(String apiPath) {
+		String[] apiRequest = apiPath.split("-");
+		if(apiRequest.length == 1){
+			return false;
+		}
+		if("docs".equals(apiRequest[1])){
+			return true;
+		}
+		
+		return false;
 	}
 	
 
