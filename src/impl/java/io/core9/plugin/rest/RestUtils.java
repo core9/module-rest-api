@@ -3,6 +3,8 @@ package io.core9.plugin.rest;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
@@ -19,6 +21,15 @@ import com.wordnik.swagger.model.ApiListing;
 
 
 public class RestUtils {
+	
+	
+	public static Map<String, RestResource> addRestResource(SwaggerConfig config, Object resourceObject) {
+		Map<String, RestResource> resourceMap = new HashMap<>();
+		RestResource restResource = new RestResourceImpl();
+		restResource.setResourceObject(config, resourceObject);
+		resourceMap.put(RestUtils.getResourcePath(resourceObject.getClass()), restResource );
+		return resourceMap;
+	}
 	
 	
 	public static JSONObject getResultFromRequest(Object obj, String method, String arg) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, JsonMappingException, JsonGenerationException, IOException{

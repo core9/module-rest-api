@@ -29,17 +29,17 @@ public class PetstoreRestResourceProviderImpl implements RestResourceProvider {
 	    config.setApiVersion("1.0.1");
 	    config.setBasePath("http://localhost:8080/api");
 		
-	    RestResource restResource = new RestResourceImpl();
-		restResource.setResourceObject(config, new PetResource());
-		resourceMap.put(RestUtils.getResourcePath(PetResource.class), restResource );
+
 		
-		RestResource restResource1 = new RestResourceImpl();
-		restResource1.setResourceObject(config, new PetStoreResource());
-		resourceMap.put(RestUtils.getResourcePath(PetStoreResource.class), restResource1 );
+		resourceMap.putAll(RestUtils.addRestResource(config, new PetResource()));
+		
+		resourceMap.putAll(RestUtils.addRestResource(config, new PetStoreResource()));
 		
 		
 		return resourceMap;
 	}
+
+
 
 
 
