@@ -13,21 +13,24 @@ import org.junit.Test;
 public class TestRestResourceProvider {
 
 	private PluginRegistry registry;
+	private RestRouter restRouter;
 
 	@Before
 	public void setUp() {
 		BootstrapFramework.run();
 		registry = PluginRegistryImpl.getInstance();
-
+		restRouter = (RestRouter) registry
+				.getPlugin(RestRouterImpl.class);
+		
+		assertNotNull(restRouter);
 	}
 
 	@Test
 	public void testRestRouter() {
 
-		RestRouter restRouter = (RestRouter) registry
-				.getPlugin(RestRouterImpl.class);
+		
 
-		assertNotNull(restRouter);
+		
 	}
 
 }
