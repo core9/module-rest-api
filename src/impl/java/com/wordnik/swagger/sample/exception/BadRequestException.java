@@ -17,6 +17,11 @@
 package com.wordnik.swagger.sample.exception;
 
 public class BadRequestException extends ApiException{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7004451664468095990L;
+	@SuppressWarnings("unused")
 	private int code;
 	public BadRequestException (int code, String msg) {
 		super(code, msg);

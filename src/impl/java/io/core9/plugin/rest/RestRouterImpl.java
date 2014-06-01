@@ -92,6 +92,7 @@ public class RestRouterImpl implements RestRouter {
 			Object apiObject, String method, String arg1, String arg2,
 			String[] pathParts) {
 		
+		@SuppressWarnings("unused")
 		String put = request.getBody();
 		// TODO Auto-generated method stub
 		return null;
@@ -100,6 +101,7 @@ public class RestRouterImpl implements RestRouter {
 	private JSONObject handlePost(Request request, JSONObject result,
 			Object apiObject, String method, String arg1, String arg2,
 			String[] pathParts) {
+		@SuppressWarnings("unused")
 		String post = request.getBody();
 		// TODO Auto-generated method stub
 		return new JSONObject();

@@ -17,6 +17,11 @@
 package com.wordnik.swagger.sample.exception;
 
 public class NotFoundException extends ApiException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6386952940560876566L;
+	@SuppressWarnings("unused")
 	private int code;
 	public NotFoundException (int code, String msg) {
 		super(code, msg);
