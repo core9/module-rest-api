@@ -11,6 +11,7 @@ import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
 import io.core9.plugin.sample.petstore.api.RestResource;
+import io.core9.plugin.server.request.Method;
 import io.core9.plugin.server.request.Request;
 
 
@@ -63,8 +64,17 @@ public class RestRouterImpl implements RestRouter {
 			
 			String[] pathParts = path.split("\\{");
 			
-			if(request.getMethod().equals("GET")){
+			Method requestMethod = request.getMethod();
+			
+			// change to switch
+			if(requestMethod.name().equals("GET")){
 				result = handleGet(request, result, apiObject, method, arg1, arg2,
+						pathParts);	
+			}else if(requestMethod.name().equals("POST")){
+				result = handlePost(request, result, apiObject, method, arg1, arg2,
+						pathParts);	
+			}else if(requestMethod.name().equals("PUT")){
+				result = handlePut(request, result, apiObject, method, arg1, arg2,
 						pathParts);	
 			}
 			
@@ -77,6 +87,23 @@ public class RestRouterImpl implements RestRouter {
 		
 		System.out.println(request);
 		return result;
+	}
+
+	private JSONObject handlePut(Request request, JSONObject result,
+			Object apiObject, String method, String arg1, String arg2,
+			String[] pathParts) {
+		
+		String put = request.getBody();
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private JSONObject handlePost(Request request, JSONObject result,
+			Object apiObject, String method, String arg1, String arg2,
+			String[] pathParts) {
+		String post = request.getBody();
+		// TODO Auto-generated method stub
+		return new JSONObject();
 	}
 
 	private JSONObject handleGet(Request request, JSONObject result,
