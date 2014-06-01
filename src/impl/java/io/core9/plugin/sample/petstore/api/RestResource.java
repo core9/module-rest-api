@@ -1,4 +1,4 @@
-package io.core9.plugin.petstore.api;
+package io.core9.plugin.sample.petstore.api;
 
 import net.minidev.json.JSONObject;
 

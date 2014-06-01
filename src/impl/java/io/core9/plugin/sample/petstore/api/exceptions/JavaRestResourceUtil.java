@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.petstore.api.exceptions;
+package io.core9.plugin.sample.petstore.api.exceptions;
 
 import java.text.SimpleDateFormat;
 

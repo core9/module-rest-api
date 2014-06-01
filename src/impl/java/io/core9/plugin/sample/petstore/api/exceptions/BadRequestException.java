@@ -14,17 +14,12 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.petstore.api.exceptions;
+package io.core9.plugin.sample.petstore.api.exceptions;
 
-public class ApiException extends Exception{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@SuppressWarnings("unused")
+public class BadRequestException extends ApiException{
 	private int code;
-	public ApiException (int code, String msg) {
-		super(msg);
+	public BadRequestException (int code, String msg) {
+		super(code, msg);
 		this.code = code;
 	}
 }

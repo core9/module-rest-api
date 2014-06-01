@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.petstore.api.model;
+package io.core9.plugin.sample.petstore.api.model;
 
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name = "Category")
-public class Category {
+@XmlRootElement(name = "Tag")
+public class Tag {
 	private long id;
 	private String name;
 

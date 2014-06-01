@@ -10,7 +10,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
-import io.core9.plugin.petstore.api.RestResource;
+import io.core9.plugin.sample.petstore.api.RestResource;
 import io.core9.plugin.server.request.Request;
 
 

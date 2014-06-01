@@ -1,6 +1,6 @@
 package io.core9.plugin.test;
 
-import io.core9.plugin.petstore.api.PetResource;
+import io.core9.plugin.sample.petstore.api.PetResource;
 
 import org.junit.Test;
 

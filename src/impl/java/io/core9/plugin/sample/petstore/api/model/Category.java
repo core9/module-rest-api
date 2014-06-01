@@ -14,12 +14,30 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.petstore.api.exceptions;
+package io.core9.plugin.sample.petstore.api.model;
 
-public class BadRequestException extends ApiException{
-	private int code;
-	public BadRequestException (int code, String msg) {
-		super(code, msg);
-		this.code = code;
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "Category")
+public class Category {
+	private long id;
+	private String name;
+
+	@XmlElement(name = "id")
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@XmlElement(name = "name")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

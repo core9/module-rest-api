@@ -14,12 +14,17 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.petstore.api.exceptions;
+package io.core9.plugin.sample.petstore.api.exceptions;
 
-public class NotFoundException extends ApiException {
+public class ApiException extends Exception{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
 	private int code;
-	public NotFoundException (int code, String msg) {
-		super(code, msg);
+	public ApiException (int code, String msg) {
+		super(msg);
 		this.code = code;
 	}
 }
