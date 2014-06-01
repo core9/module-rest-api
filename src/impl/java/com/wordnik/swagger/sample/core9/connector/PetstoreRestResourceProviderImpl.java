@@ -12,6 +12,7 @@ import net.xeoh.plugins.base.annotations.PluginImplementation;
 import com.wordnik.swagger.config.SwaggerConfig;
 import com.wordnik.swagger.sample.resource.PetResource;
 import com.wordnik.swagger.sample.resource.PetStoreResource;
+import com.wordnik.swagger.sample.resource.UserResource;
 
 
 @PluginImplementation
@@ -33,6 +34,8 @@ public class PetstoreRestResourceProviderImpl implements RestResourceProvider {
 		resourceMap.putAll(RestUtils.addRestResource(config, new PetResource()));
 		
 		resourceMap.putAll(RestUtils.addRestResource(config, new PetStoreResource()));
+		
+		resourceMap.putAll(RestUtils.addRestResource(config, new UserResource()));
 		
 		
 		return resourceMap;
