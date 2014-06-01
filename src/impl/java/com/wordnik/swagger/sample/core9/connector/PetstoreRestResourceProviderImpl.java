@@ -1,18 +1,17 @@
 package com.wordnik.swagger.sample.core9.connector;
 
 import io.core9.plugin.rest.RestResource;
-import io.core9.plugin.rest.RestResourceImpl;
 import io.core9.plugin.rest.RestResourceProvider;
 import io.core9.plugin.rest.RestUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import net.xeoh.plugins.base.annotations.PluginImplementation;
+
 import com.wordnik.swagger.config.SwaggerConfig;
 import com.wordnik.swagger.sample.resource.PetResource;
 import com.wordnik.swagger.sample.resource.PetStoreResource;
-
-import net.xeoh.plugins.base.annotations.PluginImplementation;
 
 
 @PluginImplementation
