@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.wordnik.swagger.config.SwaggerConfig;
 import com.wordnik.swagger.sample.resource.PetResource;
+import com.wordnik.swagger.sample.resource.PetStoreResource;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 
@@ -22,14 +23,19 @@ public class PetstoreRestResourceProviderImpl implements RestResourceProvider {
 	@Override
 	public Map<String, RestResource> getResources() {
 
-		RestResource restResource = new RestResourceImpl();
+		
 		
 	    SwaggerConfig config = new SwaggerConfig();
 	    config.setApiVersion("1.0.1");
 	    config.setBasePath("http://localhost:8080/api");
 		
+	    RestResource restResource = new RestResourceImpl();
 		restResource.setResourceObject(config, new PetResource());
 		resourceMap.put(RestUtils.getResourcePath(PetResource.class), restResource );
+		
+		RestResource restResource1 = new RestResourceImpl();
+		restResource1.setResourceObject(config, new PetStoreResource());
+		resourceMap.put(RestUtils.getResourcePath(PetStoreResource.class), restResource1 );
 		
 		
 		return resourceMap;
