@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.sample.petstore.api.exceptions;
+package com.wordnik.swagger.sample.exception;
 
-public class NotFoundException extends ApiException {
+public class BadRequestException extends ApiException{
 	private int code;
-	public NotFoundException (int code, String msg) {
+	public BadRequestException (int code, String msg) {
 		super(code, msg);
 		this.code = code;
 	}

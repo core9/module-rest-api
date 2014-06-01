@@ -1,7 +1,5 @@
 package io.core9.plugin.rest;
 
-import io.core9.plugin.sample.petstore.api.RestResource;
-
 import java.util.HashMap;
 import java.util.Map;
 

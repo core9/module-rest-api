@@ -14,12 +14,12 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.sample.petstore.api.exceptions;
+package com.wordnik.swagger.sample.exception;
 
-public class BadRequestException extends ApiException{
+public class ApiException extends Exception{
 	private int code;
-	public BadRequestException (int code, String msg) {
-		super(code, msg);
+	public ApiException (int code, String msg) {
+		super(msg);
 		this.code = code;
 	}
 }

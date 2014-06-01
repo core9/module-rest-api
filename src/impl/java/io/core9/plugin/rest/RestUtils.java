@@ -17,7 +17,6 @@ import com.wordnik.swagger.core.util.JsonSerializer;
 import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
 import com.wordnik.swagger.model.ApiListing;
 
-import io.core9.plugin.sample.petstore.api.PetResource;
 
 public class RestUtils {
 	
@@ -59,7 +58,7 @@ public class RestUtils {
 	}
 	
 
-	public static String getResourcePath(Class<PetResource> clazz) {
+	public static String getResourcePath(Class<?> clazz) {
 		return clazz.getAnnotation(javax.ws.rs.Path.class).value();
 	}
 	

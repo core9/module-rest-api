@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.sample.petstore.api.exceptions;
+package com.wordnik.swagger.sample.resource;
 
 import java.text.SimpleDateFormat;
 

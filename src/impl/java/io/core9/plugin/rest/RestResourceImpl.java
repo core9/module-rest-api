@@ -1,6 +1,5 @@
-package io.core9.plugin.sample.petstore.api;
+package io.core9.plugin.rest;
 
-import io.core9.plugin.rest.RestUtils;
 import net.minidev.json.JSONObject;
 
 import com.wordnik.swagger.config.SwaggerConfig;

@@ -8,13 +8,13 @@ import java.lang.reflect.Method;
 import javax.ws.rs.core.Response;
 
 import io.core9.plugin.rest.PojoMapper;
-import io.core9.plugin.sample.petstore.api.PetResource;
-import io.core9.plugin.sample.petstore.api.exceptions.NotFoundException;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.wordnik.swagger.sample.exception.NotFoundException;
+import com.wordnik.swagger.sample.resource.PetResource;
 
 public class TestPetResource {
 

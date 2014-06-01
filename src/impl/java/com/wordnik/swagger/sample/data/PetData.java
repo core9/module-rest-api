@@ -14,13 +14,12 @@
  *  limitations under the License.
  */
 
-package io.core9.plugin.sample.petstore.api;
+package com.wordnik.swagger.sample.data;
 
+import com.wordnik.swagger.sample.model.*;
 
 import java.util.List;
 import java.util.ArrayList;
-
-import io.core9.plugin.sample.petstore.api.model.*;
 
 public class PetData {
 	static List<Pet> pets = new ArrayList<Pet>();
