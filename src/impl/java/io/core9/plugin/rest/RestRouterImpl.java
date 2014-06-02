@@ -20,10 +20,10 @@ public class RestRouterImpl implements RestRouter {
 	private RestResourceModuleRegistry restResourceModuleRegistry;
 
 	@Override
-	public JSONObject getResponse(String basePath, Request request) {
+	public JSONObject getResponse(String basePath, String apiPath, String requestMethod, String arg1, String arg2,  Request request) {
 
 		JSONObject result = new JSONObject();
-		String apiPath = "/" + (String) request.getParams().get("api");
+		
 
 		RestResource apiResource;
 		JSONObject apiJson;
@@ -45,19 +45,17 @@ public class RestRouterImpl implements RestRouter {
 			String method = (String) ((JSONObject) ((JSONArray) jsonObj
 					.get("operations")).get(0)).get("nickname");
 			String path = (String) jsonObj.get("path");
-			String arg1 = (String) request.getParams().get("arg1");
-			String arg2 = (String) request.getParams().get("arg2");
 			String[] pathParts = path.split("\\{");
-			Method requestMethod = request.getMethod();
+
 
 			// change to switch
-			if (requestMethod.name().equals("GET")) {
+			if (requestMethod.equals("GET")) {
 				result = handleGet(request, result, apiObject, method, arg1,
 						arg2, pathParts);
-			} else if (requestMethod.name().equals("POST")) {
+			} else if (requestMethod.equals("POST")) {
 				result = handlePost(request, result, apiObject, method, arg1,
 						arg2, pathParts);
-			} else if (requestMethod.name().equals("PUT")) {
+			} else if (requestMethod.equals("PUT")) {
 				result = handlePut(request, result, apiObject, method, arg1,
 						arg2, pathParts);
 			}

@@ -3,6 +3,7 @@ package io.core9.plugin.rest;
 import io.core9.module.auth.AuthenticationPlugin;
 import io.core9.plugin.server.HostManager;
 import io.core9.plugin.server.handler.Middleware;
+import io.core9.plugin.server.request.Method;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.server.vertx.VertxServer;
 import net.minidev.json.JSONObject;
@@ -38,7 +39,13 @@ public class RestDispatcherImpl  implements RestDispatcher {
 
 				System.out.println("Getting rest request : " + request.getPath());
 				
-				JSONObject result = restRouter.getResponse("/api", request);
+				
+				String apiPath = "/" + (String) request.getParams().get("api");
+				String arg1 = (String) request.getParams().get("arg1");
+				String arg2 = (String) request.getParams().get("arg2");
+				Method method = request.getMethod();
+				String requestMethod = method.name();
+				JSONObject result = restRouter.getResponse("/api", apiPath, requestMethod, arg1, arg2, request);
 				
 				System.out.println("Result is : " + result);
 				
