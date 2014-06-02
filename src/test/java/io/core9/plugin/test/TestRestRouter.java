@@ -1,6 +1,6 @@
 package io.core9.plugin.test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import io.core9.core.PluginRegistry;
 import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
@@ -37,9 +37,15 @@ public class TestRestRouter {
 	@Test
 	public void restRouterGetApiForUser() {
 
-		//JSONObject response = restRouter.getResponse(basePath , request);
+		String apiPath = "/pet";
+		String requestMethod = "GET";
+		String arg1 = "1";
+		String arg2 = "";
+		JSONObject response = restRouter.getResponse(basePath, apiPath, requestMethod, arg1, arg2);
 
+		assertTrue(response.toString().replace("\"", "'").equals("{'photoUrls':['url1','url2'],'name':'Cat 1','id':1,'category':{'name':'Cats','id':2},'tags':[{'name':'tag1','id':1},{'name':'tag2','id':2}],'status':'available'}"));
 		
+		System.out.println(response.toString().replace("\"", "'"));
 	}
 
 }
