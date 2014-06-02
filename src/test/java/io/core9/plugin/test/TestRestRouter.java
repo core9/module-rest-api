@@ -35,7 +35,19 @@ public class TestRestRouter {
 	}
 
 	@Test
-	public void restRouterGetApiForUser() {
+	public void restRouterGetApiForPet() {
+
+		String apiPath = "/pet-docs";
+		String requestMethod = "GET";
+		String arg1 = "1";
+		String arg2 = "";
+		JSONObject response = restRouter.getResponse(basePath, apiPath, requestMethod, arg1, arg2);
+
+		assertTrue(response.get("resourcePath").equals("/pet"));
+	}
+	
+	@Test
+	public void restRouterGetPetById() {
 
 		String apiPath = "/pet";
 		String requestMethod = "GET";
@@ -44,8 +56,6 @@ public class TestRestRouter {
 		JSONObject response = restRouter.getResponse(basePath, apiPath, requestMethod, arg1, arg2);
 
 		assertTrue(response.toString().replace("\"", "'").equals("{'photoUrls':['url1','url2'],'name':'Cat 1','id':1,'category':{'name':'Cats','id':2},'tags':[{'name':'tag1','id':1},{'name':'tag2','id':2}],'status':'available'}"));
-		
-		System.out.println(response.toString().replace("\"", "'"));
 	}
 
 }
