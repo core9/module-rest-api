@@ -15,11 +15,13 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unused")
 public class TestRestRouter {
 
 	private PluginRegistry registry;
 	private RestRouter restRouter;
 	private Request request = mock(RequestImpl.class);
+
 	private String basePath = "/api";
 
 	@Before

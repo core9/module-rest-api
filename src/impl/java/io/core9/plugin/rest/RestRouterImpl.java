@@ -3,15 +3,13 @@ package io.core9.plugin.rest;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
-import io.core9.plugin.server.request.Method;
-import io.core9.plugin.server.request.Request;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @PluginImplementation
 public class RestRouterImpl implements RestRouter {
@@ -20,10 +18,10 @@ public class RestRouterImpl implements RestRouter {
 	private RestResourceModuleRegistry restResourceModuleRegistry;
 
 	@Override
-	public JSONObject getResponse(String basePath, String apiPath, String requestMethod, String arg1, String arg2,  Request request) {
+	public JSONObject getResponse(String basePath, String apiPath,
+			String requestMethod, String arg1, String arg2) {
 
 		JSONObject result = new JSONObject();
-		
 
 		RestResource apiResource;
 		JSONObject apiJson;
@@ -47,17 +45,16 @@ public class RestRouterImpl implements RestRouter {
 			String path = (String) jsonObj.get("path");
 			String[] pathParts = path.split("\\{");
 
-
 			// change to switch
 			if (requestMethod.equals("GET")) {
-				result = handleGet(request, result, apiObject, method, arg1,
-						arg2, pathParts);
+				result = handleGet(result, apiObject, method, arg1, arg2,
+						pathParts);
 			} else if (requestMethod.equals("POST")) {
-				result = handlePost(request, result, apiObject, method, arg1,
-						arg2, pathParts);
+				result = handlePost(result, apiObject, method, arg1, arg2,
+						pathParts);
 			} else if (requestMethod.equals("PUT")) {
-				result = handlePut(request, result, apiObject, method, arg1,
-						arg2, pathParts);
+				result = handlePut(result, apiObject, method, arg1, arg2,
+						pathParts);
 			}
 
 		}
@@ -65,26 +62,20 @@ public class RestRouterImpl implements RestRouter {
 		return result;
 	}
 
-	private JSONObject handlePut(Request request, JSONObject result,
-			Object apiObject, String method, String arg1, String arg2,
-			String[] pathParts) {
-
-		@SuppressWarnings("unused")
-		String put = request.getBody();
+	private JSONObject handlePut(JSONObject result, Object apiObject,
+			String method, String arg1, String arg2, String[] pathParts) {
+		// String put = request.getBody();
 		return null;
 	}
 
-	private JSONObject handlePost(Request request, JSONObject result,
-			Object apiObject, String method, String arg1, String arg2,
-			String[] pathParts) {
-		@SuppressWarnings("unused")
-		String post = request.getBody();
+	private JSONObject handlePost(JSONObject result, Object apiObject,
+			String method, String arg1, String arg2, String[] pathParts) {
+		// String post = request.getBody();
 		return new JSONObject();
 	}
 
-	private JSONObject handleGet(Request request, JSONObject result,
-			Object apiObject, String method, String arg1, String arg2,
-			String[] pathParts) {
+	private JSONObject handleGet(JSONObject result, Object apiObject,
+			String method, String arg1, String arg2, String[] pathParts) {
 		if (pathParts.length > 1) {
 			// arg 1 is id
 			try {
@@ -126,7 +117,7 @@ public class RestRouterImpl implements RestRouter {
 			} catch (SecurityException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
- 				e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 		return result;
