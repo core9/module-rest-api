@@ -18,21 +18,21 @@ public class RestRouterImpl implements RestRouter {
 	private RestResourceModuleRegistry restResourceModuleRegistry;
 
 	@Override
-	public JSONObject getResponse(String basePath, String apiPath,
+	public JSONObject getResponse(String basePath, String requestPath,
 			String requestMethod, String arg1, String arg2) {
 
 		JSONObject result = new JSONObject();
 
 		RestResource apiResource;
 		JSONObject apiJson;
-		if (ifApiRequest(apiPath)) {
+		if (ifApiRequest(requestPath)) {
 			apiResource = restResourceModuleRegistry
-					.getResource(getApiPath(apiPath));
+					.getResource(getApiPath(requestPath));
 			apiJson = apiResource.getApi();
 			return apiJson;
 		}
 
-		apiResource = restResourceModuleRegistry.getResource(apiPath);
+		apiResource = restResourceModuleRegistry.getResource(requestPath);
 		apiJson = apiResource.getApi();
 		JSONArray apis = (JSONArray) apiJson.get("apis");
 		Object apiObject = apiResource.getResourceObject();
