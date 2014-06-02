@@ -35,7 +35,7 @@ public class TestRestRouter {
 	@Test
 	public void restRouterGetApiForUser() {
 
-		JSONObject response = restRouter.getResponse(basePath , request);
+		//JSONObject response = restRouter.getResponse(basePath , request);
 
 		
 	}
