@@ -14,7 +14,7 @@ import com.wordnik.swagger.sample.resource.PetResource;
 public class TestBasicResource {
 
 	
-	@Test
+	//@Test
 	public void test(){
 	
 
