@@ -1,26 +1,22 @@
 package io.core9.plugin.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import io.core9.core.PluginRegistry;
 import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
 import io.core9.plugin.rest.RestRouter;
 import io.core9.plugin.rest.RestRouterImpl;
-import io.core9.plugin.server.request.Request;
-import io.core9.plugin.server.vertx.RequestImpl;
 import net.minidev.json.JSONObject;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Mockito.*;
 
-@SuppressWarnings("unused")
 public class TestRestRouter {
 
 	private PluginRegistry registry;
 	private RestRouter restRouter;
-	private Request request = mock(RequestImpl.class);
 
 	private String basePath = "/api";
 
