@@ -28,7 +28,7 @@ public class TestRestRouter {
 	public void setUp() {
 		BootstrapFramework.run();
 		registry = PluginRegistryImpl.getInstance();
-		restRouter = (RestRouter) registry
+		restRouter = (RestRouter) registry 
 				.getPlugin(RestRouterImpl.class);
 		
 		assertNotNull(restRouter);
