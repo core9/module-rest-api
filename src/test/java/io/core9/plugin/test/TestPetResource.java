@@ -18,7 +18,7 @@ import com.wordnik.swagger.sample.resource.PetResource;
 
 public class TestPetResource {
 
-	@Test
+	//@Test
 	public void test() throws NotFoundException, JsonMappingException,
 			JsonGenerationException, IOException {
 
@@ -36,7 +36,7 @@ public class TestPetResource {
 
 	}
 
-	@Test
+	//@Test
 	public void printMethodAnnotations() {
 
 		Method[] methods = PetResource.class.getMethods();
@@ -53,7 +53,7 @@ public class TestPetResource {
 
 	}
 
-	@Test
+	//@Test
 	public void invokeMethod() throws IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException, JsonMappingException,
