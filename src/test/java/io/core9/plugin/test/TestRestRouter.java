@@ -20,7 +20,7 @@ public class TestRestRouter {
 
 	private String basePath = "/api";
 
-	//@Before
+	@Before
 	public void setUp() {
 		BootstrapFramework.run();
 		registry = PluginRegistryImpl.getInstance();
@@ -30,7 +30,7 @@ public class TestRestRouter {
 		assertNotNull(restRouter);
 	}
 
-	//@Test
+	@Test
 	public void restRouterGetApiForPet() {
 
 		String requestPath = "/pet-docs";
@@ -42,7 +42,7 @@ public class TestRestRouter {
 		assertTrue(response.get("resourcePath").equals("/pet"));
 	}
 	
-	//@Test
+	@Test
 	public void restRouterGetPetById() {
 
 		String requestPath = "/pet";
