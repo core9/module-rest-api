@@ -5,6 +5,7 @@ import io.core9.plugin.rest.RestRequestImpl;
 import io.core9.plugin.server.VirtualHost;
 import io.core9.plugin.server.request.Method;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import net.minidev.json.JSONObject;
@@ -18,12 +19,14 @@ public class TestRequestConverter {
 
 		RestRequest req = new RestRequestImpl();
 		VirtualHost virtualHost = new VirtualHost("localhost");
-		Map<String, Object> params = null;
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("user", "user1");
 		
 		req.setMethod(Method.GET);
 		req.setPath("/test");
 		req.setParams(params);
-		req.setVirtualHost(virtualHost );
+		req.setVirtualHost(virtualHost);
 
 		JSONObject jsonRequest = req.toJson();
 

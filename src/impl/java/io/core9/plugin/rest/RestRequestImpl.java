@@ -257,7 +257,14 @@ public class RestRequestImpl implements RestRequest {
 
 	@Override
 	public JSONObject toJson() {
-		return null;
+		JSONObject json = new JSONObject();
+		
+		json.put("method", type.name());
+		json.put("path", path);
+		json.put("params", new JSONObject(params));
+		json.put("host", vhost.getHostname());
+		
+		return json;
 	}
 
 }
