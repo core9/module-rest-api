@@ -6,7 +6,6 @@ import io.core9.plugin.server.request.Method;
 import java.util.Map;
 
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 
 import org.junit.Test;
 
@@ -25,7 +24,8 @@ public class TestRequestConverter {
 		req.setVirtualHost(virtualHost );
 
 		JSONObject jsonRequest = req.toJson();
-	
+
+		System.out.println(jsonRequest);
 	}
 
 }
