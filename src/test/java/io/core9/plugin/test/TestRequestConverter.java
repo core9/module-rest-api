@@ -20,6 +20,9 @@ public class TestRequestConverter {
 		 when(request.getBody()).thenReturn("body");
 		 
 		 assertTrue(request.getBody().equals("body"));
+		 
+		 
+		 RestRequest req = new RestRequestImpl();
 		
 		
 	}
