@@ -1,5 +1,7 @@
 package io.core9.plugin.test;
 
+import io.core9.plugin.rest.RestRequest;
+import io.core9.plugin.rest.RestRequestImpl;
 import io.core9.plugin.server.VirtualHost;
 import io.core9.plugin.server.request.Method;
 

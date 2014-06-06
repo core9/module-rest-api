@@ -1,4 +1,4 @@
-package io.core9.plugin.test;
+package io.core9.plugin.rest;
 
 import io.core9.plugin.server.Cookie;
 import io.core9.plugin.server.VirtualHost;

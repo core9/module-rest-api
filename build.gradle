@@ -24,6 +24,9 @@ dependencies {
 	compile 'io.core9:module-widgets-api:+'
 	compile 'io.core9:module-database-mongodb-api:+'
 	compile 'io.core9:module-authentication-api:+'
+	// this is here only because of the json stuff in RestRequestImpl
+	compile 'io.core9:module-server:+'
+	compile 'io.core9:module-server-vertx:+'
 
 	// overide some google guava 13 version.
 	compile 'com.google.guava:guava:15.0'
