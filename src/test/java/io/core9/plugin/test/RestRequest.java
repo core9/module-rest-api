@@ -2,10 +2,13 @@ package io.core9.plugin.test;
 
 import io.core9.plugin.server.Cookie;
 import io.core9.plugin.server.VirtualHost;
+import io.core9.plugin.server.request.Method;
 import io.core9.plugin.server.request.Response;
 
 import java.util.List;
 import java.util.Map;
+
+import net.minidev.json.JSONObject;
 
 public interface RestRequest {
 	/**
@@ -14,11 +17,15 @@ public interface RestRequest {
 	 */
 	String getPath();
 	
+	void setPath(String path);
+	
 	/**
 	 * Get all set params
 	 * @return
 	 */
 	Map<String,Object> getParams();
+	
+	void setParams(Map<String,Object> params);
 	
 	/**
 	 * Get the response (wrapped) object
@@ -30,22 +37,30 @@ public interface RestRequest {
 	 * Get the request method (GET,POST,PUT etc)
 	 * @return
 	 */
-	String getMethod();
+	Method getMethod();
+	
+	void setMethod(Method method);
 	
 	/**
 	 * Get the request body
 	 */
 	String getBody();
 	
+	void setBody(String body);
+	
 	/**
 	 * Return the request body as a map
 	 */
 	Map<String, Object> getBodyAsMap();
 	
+	void setBodyAsMap(Map<String, Object> bodyAsMap);
+	
 	/**
 	 * Return the request body as a list
 	 */
 	List<Object> getBodyAsList();
+	
+	void setBodyAsList(List<Object> bodyAsList);
 	
 	/**
 	 * Get the request context
@@ -72,6 +87,8 @@ public interface RestRequest {
 	 */
 	VirtualHost getVirtualHost();
 	
+	void setVirtualHost(VirtualHost virtualHost);
+	
 	/**
 	 * Return a cookie by name
 	 * @param name
@@ -96,4 +113,10 @@ public interface RestRequest {
 	 * Get the hostname
 	 */
 	String getHostname();
+
+	List<Cookie> getCookies();
+
+	JSONObject toJson();
+
+
 }

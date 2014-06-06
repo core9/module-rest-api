@@ -1,31 +1,31 @@
 package io.core9.plugin.test;
 
-import org.junit.Test;
+import io.core9.plugin.server.VirtualHost;
+import io.core9.plugin.server.request.Method;
 
-import io.core9.plugin.server.request.Request;
-import io.core9.plugin.server.vertx.RequestImpl;
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import java.util.Map;
+
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
+import org.junit.Test;
 
 public class TestRequestConverter {
 
-	
-	
 	@Test
-	public void createRequest(){
+	public void createRequest() {
+
+		RestRequest req = new RestRequestImpl();
+		VirtualHost virtualHost = new VirtualHost("localhost");
+		Map<String, Object> params = null;
 		
-		
-		 Request request = mock(RequestImpl.class);
-		 
-		 when(request.getBody()).thenReturn("body");
-		 
-		 assertTrue(request.getBody().equals("body"));
-		 
-		 
-		 RestRequest req = new RestRequestImpl();
-		
-		
+		req.setMethod(Method.GET);
+		req.setPath("/test");
+		req.setParams(params);
+		req.setVirtualHost(virtualHost );
+
+		JSONObject jsonRequest = req.toJson();
+	
 	}
-	
-	
+
 }

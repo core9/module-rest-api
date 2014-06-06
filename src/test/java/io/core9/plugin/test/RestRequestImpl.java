@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import net.minidev.json.JSONObject;
+
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 
@@ -70,8 +72,8 @@ public class RestRequestImpl implements RestRequest {
 	}
 
 	@Override
-	public String getMethod() {
-		return type.name();
+	public Method getMethod() {
+		return type;
 	}
 
 
@@ -145,6 +147,7 @@ public class RestRequestImpl implements RestRequest {
 		return this.context;
 	}
 
+	@Override
 	public void setBody(String body) {
 		this.body = body;
 	}
@@ -207,10 +210,56 @@ public class RestRequestImpl implements RestRequest {
 	public void setCookies(List<Cookie> cookies) {
 		this.cookies = cookies;
 	}
+	
+	@Override
+	public List<Cookie> getCookies() {
+		return cookies;
+	}
+	
 
 	@Override
 	public String getHostname() {
 		return request.getHostname();
+	}
+
+	@Override
+	public void setPath(String path) {
+
+		
+	}
+
+	@Override
+	public void setParams(Map<String, Object> params) {
+
+		
+	}
+
+	@Override
+	public void setMethod(Method method) {
+
+		
+	}
+
+	@Override
+	public void setBodyAsMap(Map<String, Object> bodyAsMap) {
+
+		
+	}
+
+	@Override
+	public void setBodyAsList(List<Object> bodyAsList) {
+
+		
+	}
+
+	@Override
+	public void setVirtualHost(VirtualHost virtualHost) {
+
+	}
+
+	@Override
+	public JSONObject toJson() {
+		return null;
 	}
 
 }
