@@ -22,8 +22,6 @@ import net.minidev.json.JSONObject;
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.JsonObject;
 
-
-
 public class RestRequestImpl implements RestRequest {
 	private static HashMap<String, Method> methods = new HashMap<String, Method>();
 	{
@@ -44,6 +42,8 @@ public class RestRequestImpl implements RestRequest {
 	private Map<String, Object> params;
 	private String body;
 	private List<Cookie> cookies;
+	private Map<String, Object> bodyAsMap;
+	private List<Object> bodyAsList;
 
 	@Override
 	public String getPath() {
@@ -76,44 +76,41 @@ public class RestRequestImpl implements RestRequest {
 		return type;
 	}
 
-
-
-
-
-
-
 	@Override
 	public Map<String, Object> getParams() {
 		return this.params;
 	}
 
 	@SuppressWarnings("unchecked")
-    private static Map<String, Object> splitQuery(String query) {
-		if(query == null || query.length() == 0) return new HashMap<String, Object>();
+	private static Map<String, Object> splitQuery(String query) {
+		if (query == null || query.length() == 0)
+			return new HashMap<String, Object>();
 		String[] pairs = query.split("&");
 		Map<String, Object> query_pairs = new HashMap<String, Object>();
 		for (String pair : pairs) {
 			int idx = pair.indexOf("=");
 			try {
 				String key = URLDecoder.decode(pair.substring(0, idx), "UTF-8");
-				String value = URLDecoder.decode(pair.substring(idx + 1), "UTF-8");
+				String value = URLDecoder.decode(pair.substring(idx + 1),
+						"UTF-8");
 				Set<String> queryKeys = query_pairs.keySet();
-				
-				if(!queryKeys.isEmpty() && queryKeys.contains(key)){
+
+				if (!queryKeys.isEmpty() && queryKeys.contains(key)) {
 					ArrayList<String> paramList = new ArrayList<>();
 					Object list = query_pairs.get(key);
-					if(list instanceof String){
+					if (list instanceof String) {
 						paramList.add(value);
-					}else if(list instanceof ArrayList){
-						paramList.addAll((Collection<? extends String>) query_pairs.get(key));
+					} else if (list instanceof ArrayList) {
+						paramList
+								.addAll((Collection<? extends String>) query_pairs
+										.get(key));
 						paramList.add(value);
-					} 
+					}
 					query_pairs.put(key, paramList);
-				}else{
-					query_pairs.put(key,value);
+				} else {
+					query_pairs.put(key, value);
 				}
-				
-				
+
 			} catch (UnsupportedEncodingException e) {
 				return new HashMap<>();
 			}
@@ -159,22 +156,28 @@ public class RestRequestImpl implements RestRequest {
 
 	@Override
 	public List<Object> getBodyAsList() {
+
+		if (bodyAsList != null) {
+			return bodyAsList;
+		}
+
 		return Arrays.asList(new JsonArray(body).toArray());
 	}
 
 	@Override
 	public Map<String, Object> getBodyAsMap() {
-		if(this.context.containsKey("is_json_object") && (boolean) this.context.get("is_json_object")) {
+
+		if (bodyAsMap != null) {
+			return bodyAsMap;
+		}
+
+		if (this.context.containsKey("is_json_object")
+				&& (boolean) this.context.get("is_json_object")) {
 			return new JsonObject(body).toMap();
 		} else {
 			return splitQuery(body);
 		}
 	}
-
-/*	public void setVirtualHost(VirtualHost vhost) {
-		this.vhost = vhost;
-		this.response.setVirtualHost(vhost);
-	}*/
 
 	@Override
 	public VirtualHost getVirtualHost() {
@@ -198,7 +201,8 @@ public class RestRequestImpl implements RestRequest {
 	public Cookie getCookie(String name) {
 		if (cookies != null) {
 			for (Cookie c : cookies) {
-				if (name.equals(c.getName()) && ( "/".equals(c.getPath()) || c.getPath() == null )) {
+				if (name.equals(c.getName())
+						&& ("/".equals(c.getPath()) || c.getPath() == null)) {
 					return c;
 				}
 			}
@@ -210,12 +214,11 @@ public class RestRequestImpl implements RestRequest {
 	public void setCookies(List<Cookie> cookies) {
 		this.cookies = cookies;
 	}
-	
+
 	@Override
 	public List<Cookie> getCookies() {
 		return cookies;
 	}
-	
 
 	@Override
 	public String getHostname() {
@@ -224,37 +227,32 @@ public class RestRequestImpl implements RestRequest {
 
 	@Override
 	public void setPath(String path) {
-
-		
+		this.path = path;
 	}
 
 	@Override
 	public void setParams(Map<String, Object> params) {
-
-		
+		this.params = params;
 	}
 
 	@Override
 	public void setMethod(Method method) {
-
-		
+		type = method;
 	}
 
 	@Override
 	public void setBodyAsMap(Map<String, Object> bodyAsMap) {
-
-		
+		this.bodyAsMap = bodyAsMap;
 	}
 
 	@Override
 	public void setBodyAsList(List<Object> bodyAsList) {
-
-		
+		this.bodyAsList = bodyAsList;
 	}
 
 	@Override
 	public void setVirtualHost(VirtualHost virtualHost) {
-
+		this.vhost = virtualHost;
 	}
 
 	@Override
