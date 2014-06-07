@@ -1,19 +1,22 @@
 package io.vertx.rxcore.test.integration.java;
 
+import static org.vertx.testtools.VertxAssert.assertEquals;
+import static org.vertx.testtools.VertxAssert.assertTrue;
+import static org.vertx.testtools.VertxAssert.fail;
+import static org.vertx.testtools.VertxAssert.testComplete;
 import io.vertx.rxcore.java.RxVertx;
-import org.junit.Test;
-import org.vertx.java.core.Context;
-import org.vertx.testtools.TestVerticle;
-import rx.Observable;
-import rx.Observer;
-import rx.functions.Action1;
-import rx.functions.Func2;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.vertx.testtools.VertxAssert.*;
+import org.junit.Test;
+import org.vertx.java.core.Context;
+import org.vertx.testtools.TestVerticle;
+
+import rx.Observable;
+import rx.Observer;
+import rx.functions.Func2;
 
 /** Unit-test for Scheduler */
 public class SchedulerTest extends TestVerticle {

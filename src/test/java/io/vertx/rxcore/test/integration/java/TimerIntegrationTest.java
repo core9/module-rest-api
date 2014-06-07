@@ -1,13 +1,14 @@
 package io.vertx.rxcore.test.integration.java;
 
 import io.vertx.rxcore.java.timer.RxTimer;
+
 import org.junit.Test;
 import org.vertx.java.core.Handler;
 import org.vertx.testtools.TestVerticle;
+
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action0;
-
 import static io.vertx.rxcore.test.integration.java.RxAssert.assertCount;
 import static io.vertx.rxcore.test.integration.java.RxAssert.assertCountThen;
 import static io.vertx.rxcore.test.integration.java.RxAssert.assertCountThenComplete;
@@ -61,7 +62,8 @@ public class TimerIntegrationTest extends TestVerticle {
     });
   }
 
-  @Test
+  @SuppressWarnings("unused")
+@Test
   public void testSetPeriodic() {
     RxTimer timer=new RxTimer(vertx);
     

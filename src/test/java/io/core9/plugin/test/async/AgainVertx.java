@@ -1,14 +1,10 @@
 package io.core9.plugin.test.async;
 
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
-import io.vertx.rxcore.java.RxVertx;
+import static org.vertx.testtools.VertxAssert.testComplete;
 import io.vertx.rxcore.java.eventbus.RxEventBus;
 import io.vertx.rxcore.java.eventbus.RxMessage;
 
 import org.junit.Test;
-import org.vertx.java.core.Context;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.VertxFactory;
@@ -17,12 +13,7 @@ import org.vertx.java.core.eventbus.Message;
 import org.vertx.testtools.TestVerticle;
 
 import rx.Observable;
-import rx.Observer;
 import rx.functions.Action1;
-import rx.functions.Func2;
-import static org.vertx.testtools.VertxAssert.*;
-
-import org.junit.Test;
 
 public class AgainVertx extends TestVerticle {
 

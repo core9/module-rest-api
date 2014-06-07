@@ -1,15 +1,13 @@
 package io.core9.plugin.test;
 
+import io.core9.plugin.rest.PojoMapper;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.ws.rs.core.Response;
-
-import io.core9.plugin.rest.PojoMapper;
-
-import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;

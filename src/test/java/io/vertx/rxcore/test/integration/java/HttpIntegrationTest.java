@@ -4,10 +4,12 @@ import java.util.*;
 
 import io.vertx.rxcore.RxSupport;
 import io.vertx.rxcore.java.http.*;
+
 import org.junit.Test;
 import org.vertx.java.core.buffer.Buffer;
 import org.vertx.java.core.http.HttpClientRequest;
 import org.vertx.testtools.TestVerticle;
+
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -123,19 +125,21 @@ public class HttpIntegrationTest extends TestVerticle {
     assertError(ob,RuntimeException.class,"Builder Exception");
   }
 
-  @Test
+  @SuppressWarnings("rawtypes")
+@Test
   public void testWebSocket() {
 
     createWebSocketPingServer();
     
     RxHttpClient client=new RxHttpClient(vertx.createHttpClient().setHost("localhost").setPort(8090));
     
-    final List<String> seq=new ArrayList(Arrays.asList("eeny","meeny","miny","moe","EOF"));
+    final List<String> seq=new ArrayList<String>(Arrays.asList("eeny","meeny","miny","moe","EOF"));
 
     client
       .connectWebsocket("/ping/connect")
       .subscribe(new Action1<RxWebSocket>() {
-        public void call(RxWebSocket s) {
+        @SuppressWarnings("unchecked")
+		public void call(RxWebSocket s) {
           System.out.println("WebSocket:connected");
           assertSingle(s.writeAsTextFrame(Observable.from(seq)),5l);
           assertSequenceThenComplete(s.asObservable(),new Buffer("eeny"),new Buffer("meeny"),new Buffer("miny"),new Buffer("moe"));

@@ -60,12 +60,14 @@ public class RxAssert {
   }
 
   /** Assert a single value */
-  public static <T> void assertSingle(Observable<T> in, final T value) {
+  @SuppressWarnings("unchecked")
+public static <T> void assertSingle(Observable<T> in, final T value) {
     assertSequence(in,value);
   }
 
   /** Assert a sequence */
-  public static <T> void assertSequence(Observable<T> in, final T... exp) {
+  @SuppressWarnings("unchecked")
+public static <T> void assertSequence(Observable<T> in, final T... exp) {
     assertSequenceThen(in, new Action0() {
       @Override public void call() {
         // Do nothing
@@ -114,12 +116,14 @@ public class RxAssert {
   }
 
   /** Assert a single value then complete test */
-  public static <T> void assertSingleThenComplete(Observable<T> in, final T value) {
+  @SuppressWarnings("unchecked")
+public static <T> void assertSingleThenComplete(Observable<T> in, final T value) {
     assertSequenceThenComplete(in,value);
   }
 
   /** Assert a sequence then complete test */
-  public static <T> void assertSequenceThenComplete(Observable<T> in, final T... exp) {
+  @SuppressWarnings("unchecked")
+public static <T> void assertSequenceThenComplete(Observable<T> in, final T... exp) {
     assertSequenceThen(in, new Action0() {
       @Override public void call() {
         testComplete();
@@ -128,8 +132,10 @@ public class RxAssert {
   }
   
   /** Assert a sequence then call an Action0 when complete */
-  public static <T> void assertSequenceThen(Observable<T> in, final Action0 thenAction, final T... exp) {
-    final List<T> expList=new ArrayList(Arrays.asList(exp));
+  @SuppressWarnings("unchecked")
+public static <T> void assertSequenceThen(Observable<T> in, final Action0 thenAction, final T... exp) {
+    @SuppressWarnings("rawtypes")
+	final List<T> expList=new ArrayList(Arrays.asList(exp));
     in.subscribe(
       new Action1<T>() {
         public void call(T value) {
@@ -151,12 +157,14 @@ public class RxAssert {
   }
 
   /** Assert an expected error */
-  public static <T> void assertError(Observable<T> in, final Class errClass) {
+  @SuppressWarnings("rawtypes")
+public static <T> void assertError(Observable<T> in, final Class errClass) {
     assertError(in,errClass,null);
   }
 
   /** Assert an expected error */
-  public static <T> void assertError(Observable<T> in, final Class errClass, final String errMsg) {
+  @SuppressWarnings("rawtypes")
+public static <T> void assertError(Observable<T> in, final Class errClass, final String errMsg) {
     in.subscribe(
       new Action1<T>() {
         public void call(T value) {

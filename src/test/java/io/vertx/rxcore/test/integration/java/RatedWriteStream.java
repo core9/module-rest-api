@@ -44,7 +44,8 @@ public class RatedWriteStream implements WriteStream<RatedWriteStream> {
   }
 
   /** Dummy Handler */
-  public static Handler traceHandler(final String id) {
+  @SuppressWarnings("rawtypes")
+public static Handler traceHandler(final String id) {
     return new Handler() {
       public void handle(Object evt) {
         System.out.println("trace["+id+"]="+evt);
@@ -64,13 +65,15 @@ public class RatedWriteStream implements WriteStream<RatedWriteStream> {
   protected RateCounter counter;
 
   /** Handlers */
-  protected Handler drainHandler;
+  @SuppressWarnings("rawtypes")
+protected Handler drainHandler;
   protected Handler<Throwable> exceptionHandler;
 
   // Public methods
 
   /** Create new RatedWriteStream */
-  public RatedWriteStream(Vertx vertx, int wps) {
+  @SuppressWarnings("unchecked")
+public RatedWriteStream(Vertx vertx, int wps) {
     this.vertx=vertx;
     this.wps=wps;
     this.counter=new RateCounter();
@@ -89,7 +92,8 @@ public class RatedWriteStream implements WriteStream<RatedWriteStream> {
     }
     // If limit reached, automatically set a timer
     else if (this.counter.count==this.wps) {
-      this.vertx.setTimer(this.counter.remaining(),new Handler<Long>() { public void handle(Long value) { drainHandler.handle(null); } });
+      this.vertx.setTimer(this.counter.remaining(),new Handler<Long>() { @SuppressWarnings("unchecked")
+	public void handle(Long value) { drainHandler.handle(null); } });
     }
     return this;
   }
@@ -106,13 +110,15 @@ public class RatedWriteStream implements WriteStream<RatedWriteStream> {
   }
 
   /** Set a handler for drainage */
-  public RatedWriteStream drainHandler(Handler handler) {
+  @SuppressWarnings("rawtypes")
+public RatedWriteStream drainHandler(Handler handler) {
     this.drainHandler=handler;
     return this;
   }
 
   /** Exception handler */
-  public RatedWriteStream exceptionHandler(Handler handler) {
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+public RatedWriteStream exceptionHandler(Handler handler) {
     this.exceptionHandler=handler;
     return this;
   }

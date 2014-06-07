@@ -1,8 +1,6 @@
 package io.core9.plugin.test;
 
 
-import org.junit.Test;
-
 import scala.Option;
 
 import com.wordnik.swagger.config.SwaggerConfig;
