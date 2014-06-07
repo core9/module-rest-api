@@ -17,6 +17,15 @@ task publishBintray (type: org._10ne.gradle.rest.RestTask, dependsOn: bintrayUpl
 	password = System.env.BINTRAY_KEY
 }
 
+
+repositories {
+	flatDir {
+		dirs 'libs'
+	}
+ }
+ 
+
+
 dependencies {
 
 
@@ -39,8 +48,17 @@ dependencies {
 
 
 	// experimental 
-	testCompile 'com.netflix.rxjava:rxjava-core:0.18.4'
-	testCompile 'io.vertx:mod-rxvertx:1.0.0-beta2'
+	//runtime fileTree(dir: 'libs', include: '*.jar')
+	//compile files('libs/mod-rxvertx-1.0.0-beta3-SNAPSHOT.jar')
+	
+	
+	compile "io.vertx:vertx-core:2.1RC3"
+	compile "io.vertx:vertx-platform:2.1RC3"
+	testCompile 'io.vertx:testtools:2.0.3-final'
+	
+	compile 'com.netflix.rxjava:rxjava-core:0.17.6'
+	compile 'io.vertx:mod-rxvertx:1.0.0-beta3-SNAPSHOT'
+
 	
 	
 	
