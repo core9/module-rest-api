@@ -16,10 +16,11 @@
 
 package com.wordnik.swagger.sample.data;
 
-import com.wordnik.swagger.sample.model.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
+
+import com.wordnik.swagger.sample.model.Order;
 
 public class StoreData {
 	static List<Order> orders = new ArrayList<Order>();

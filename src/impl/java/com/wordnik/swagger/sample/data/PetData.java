@@ -16,10 +16,12 @@
 
 package com.wordnik.swagger.sample.data;
 
-import com.wordnik.swagger.sample.model.*;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.wordnik.swagger.sample.model.Category;
+import com.wordnik.swagger.sample.model.Pet;
+import com.wordnik.swagger.sample.model.Tag;
 
 public class PetData {
 	static List<Pet> pets = new ArrayList<Pet>();
