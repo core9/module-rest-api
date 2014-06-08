@@ -1,5 +1,7 @@
 package io.core9.plugin.rest;
 
+import io.core9.plugin.server.request.Request;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -16,18 +18,16 @@ public class RestRouterImpl implements RestRouter {
 
 	@InjectPlugin
 	private RestResourceModuleRegistry restResourceModuleRegistry;
+	private RestRequest restRequest;
 
-	@Override
-	public JSONObject getResponse(String basePath, String requestPath,
-			String requestMethod, String arg1, String arg2) {
+	private JSONObject getResponse(String basePath, String requestPath, String requestMethod, String arg1, String arg2) {
 
 		JSONObject result = new JSONObject();
 
 		RestResource apiResource;
 		JSONObject apiJson;
 		if (ifApiRequest(requestPath)) {
-			apiResource = restResourceModuleRegistry
-					.getResource(getApiPath(requestPath));
+			apiResource = restResourceModuleRegistry.getResource(getApiPath(requestPath));
 			apiJson = apiResource.getApi();
 			return apiJson;
 		}
@@ -40,21 +40,17 @@ public class RestRouterImpl implements RestRouter {
 		for (Object api : apis) {
 
 			JSONObject jsonObj = (JSONObject) api;
-			String method = (String) ((JSONObject) ((JSONArray) jsonObj
-					.get("operations")).get(0)).get("nickname");
+			String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
 			String path = (String) jsonObj.get("path");
 			String[] pathParts = path.split("\\{");
 
 			// change to switch
 			if (requestMethod.equals("GET")) {
-				result = handleGet(result, apiObject, method, arg1, arg2,
-						pathParts);
+				result = handleGet(result, apiObject, method, arg1, arg2, pathParts);
 			} else if (requestMethod.equals("POST")) {
-				result = handlePost(result, apiObject, method, arg1, arg2,
-						pathParts);
+				result = handlePost(result, apiObject, method, arg1, arg2, pathParts);
 			} else if (requestMethod.equals("PUT")) {
-				result = handlePut(result, apiObject, method, arg1, arg2,
-						pathParts);
+				result = handlePut(result, apiObject, method, arg1, arg2, pathParts);
 			}
 
 		}
@@ -62,25 +58,21 @@ public class RestRouterImpl implements RestRouter {
 		return result;
 	}
 
-	private JSONObject handlePut(JSONObject result, Object apiObject,
-			String method, String arg1, String arg2, String[] pathParts) {
+	private JSONObject handlePut(JSONObject result, Object apiObject, String method, String arg1, String arg2, String[] pathParts) {
 		// String put = request.getBody();
 		return null;
 	}
 
-	private JSONObject handlePost(JSONObject result, Object apiObject,
-			String method, String arg1, String arg2, String[] pathParts) {
+	private JSONObject handlePost(JSONObject result, Object apiObject, String method, String arg1, String arg2, String[] pathParts) {
 		// String post = request.getBody();
 		return new JSONObject();
 	}
 
-	private JSONObject handleGet(JSONObject result, Object apiObject,
-			String method, String arg1, String arg2, String[] pathParts) {
+	private JSONObject handleGet(JSONObject result, Object apiObject, String method, String arg1, String arg2, String[] pathParts) {
 		if (pathParts.length > 1) {
 			// arg 1 is id
 			try {
-				result = RestUtils
-						.getResultFromRequest(apiObject, method, arg1);
+				result = RestUtils.getResultFromRequest(apiObject, method, arg1);
 			} catch (JsonMappingException e) {
 				e.printStackTrace();
 			} catch (JsonGenerationException e) {
@@ -100,8 +92,7 @@ public class RestRouterImpl implements RestRouter {
 			}
 		} else if (method.equals(arg1)) {
 			try {
-				result = RestUtils
-						.getResultFromRequest(apiObject, method, arg2);
+				result = RestUtils.getResultFromRequest(apiObject, method, arg2);
 			} catch (JsonMappingException e) {
 				e.printStackTrace();
 			} catch (JsonGenerationException e) {
@@ -138,6 +129,21 @@ public class RestRouterImpl implements RestRouter {
 		}
 
 		return false;
+	}
+
+	@Override
+	public JSONObject getResponse(RestRequest req) {
+		this.restRequest = req;
+
+		String arg1 = null;
+		String arg2 = null;
+		return getResponse(req.getBasePath(), req.getPath(), req.getMethod().name(), arg1, arg2);
+
+	}
+
+	@Override
+	public JSONObject getResponse(Request req) {
+		return null;
 	}
 
 }

@@ -18,10 +18,6 @@ import net.minidev.json.JSONObject;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.vertx.java.core.spi.cluster.ClusterManagerFactory;
-import org.vertx.java.spi.cluster.impl.hazelcast.HazelcastClusterManagerFactory;
-
-//import org.vertx.java.spi.cluster.impl.hazelcast.HazelcastClusterManagerFactory;
 
 
 
@@ -34,22 +30,18 @@ public class TestRequestConverter {
 	private String basePath = "/api";
 
 
-	@Before
+	//@Before
 	public void setUp() {
-		
-		//org.vertx.java.spi.cluster.impl.hazelcast.HazelcastClusterManagerFactory
-		
-		//System.setProperty("vertx.clusterManagerFactory", HazelcastClusterManagerFactory.class.getCanonicalName());
 		
 		BootstrapFramework.run();
 		registry = PluginRegistryImpl.getInstance();
 		restRouter = (RestRouter) registry 
 				.getPlugin(RestRouterImpl.class);
 		
-		//assertNotNull(restRouter);
+		assertNotNull(restRouter);
 	}
 
-	@Test
+	//@Test
 	public void createRequest() {
 
 		RestRequest req = new RestRequestImpl();
@@ -65,6 +57,8 @@ public class TestRequestConverter {
 		req.setVirtualHost(virtualHost);
 
 		JSONObject jsonRequest = req.toJson();
+		
+		restRouter.getResponse(req);
 
 		System.out.println(jsonRequest);
 	}

@@ -45,8 +45,8 @@ public class RestDispatcherImpl  implements RestDispatcher {
 				String arg2 = (String) request.getParams().get("arg2");
 				Method method = request.getMethod();
 				String requestMethod = method.name();
-				JSONObject result = restRouter.getResponse("/api", apiPath, requestMethod, arg1, arg2);
-				
+				//JSONObject result = restRouter.getResponse("/api", apiPath, requestMethod, arg1, arg2);
+				JSONObject result = restRouter.getResponse(request);
 				System.out.println("Result is : " + result);
 				
 				request.getResponse().sendJsonMap(result);
