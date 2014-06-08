@@ -38,7 +38,11 @@ public class RestUtils {
 		methodObj = obj.getClass().getMethod(method, String.class);
 		Response response = (Response) ((Method) methodObj).invoke(obj, arg);
 		Object entity = response.getEntity();
-		return (JSONObject) JSONValue.parse(PojoMapper.toJson(entity, true));
+		String jsonString = PojoMapper.toJson(entity, true);
+		
+		JSONObject result = (JSONObject) JSONValue.parse(jsonString);
+		
+		return result;
 	}
 
 	public static JSONObject getApiFromResource(String apiVersion, String basePath, String apiPath, Class<?> clazz) {

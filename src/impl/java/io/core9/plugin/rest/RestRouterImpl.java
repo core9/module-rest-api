@@ -19,19 +19,21 @@ public class RestRouterImpl implements RestRouter {
 	@SuppressWarnings("unused")
 	private RestRequest restRequest;
 
-	private JSONObject getResponse(RestRequest request, String basePath, String requestPath, String requestMethod, String arg1, String arg2) {
+	private JSONObject getResponse(RestRequest request, String basePath, String requestPath, String requestMethod) {
 
 		JSONObject result = new JSONObject();
 
 		RestResource apiResource;
 		JSONObject apiJson;
-		if (ifApiRequest(requestPath)) {
-			apiResource = restResourceModuleRegistry.getResource(getApiPath(requestPath));
+		if (ifApiRequest(request.getPath())) {
+			apiResource = restResourceModuleRegistry.getResource(getApiPath(request.getPath()));
 			apiJson = apiResource.getApi();
 			return apiJson;
 		}
 
-		apiResource = restResourceModuleRegistry.getResource(requestPath);
+		String resource = "/" + request.getPathPart(0);
+		// currently does not support sub resources only /api/param eq (/pet/1) 
+		apiResource = restResourceModuleRegistry.getResource(resource);
 		apiJson = apiResource.getApi();
 		JSONArray apis = (JSONArray) apiJson.get("apis");
 		Object apiObject = apiResource.getResourceObject();
@@ -40,8 +42,8 @@ public class RestRouterImpl implements RestRouter {
 
 			JSONObject jsonObj = (JSONObject) api;
 			String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
-			String path = (String) jsonObj.get("path");
-			String[] pathParts = path.split("\\{");
+			//String path = (String) jsonObj.get("path");
+		
 
 			switch (request.getMethod()) {
 			case DELETE:
@@ -49,8 +51,7 @@ public class RestRouterImpl implements RestRouter {
 			case PUT:
 				break;
 			case GET:
-				result = handleGet(result, apiObject, method, arg1, arg2, pathParts);
-				break;
+				return handleGet(request, result, apiObject, method);
 			case POST:
 				break;
 			case HEAD:
@@ -66,11 +67,11 @@ public class RestRouterImpl implements RestRouter {
 		return result;
 	}
 
-	private JSONObject handleGet(JSONObject result, Object apiObject, String method, String arg1, String arg2, String[] pathParts) {
-		if (pathParts.length > 1) {
+	private JSONObject handleGet(RestRequest request, JSONObject result, Object apiObject, String method) {
+		if (request.getPathPartNr() > 1) {
 			// arg 1 is id
 			try {
-				result = RestUtils.getResultFromRequest(apiObject, method, arg1);
+				result = RestUtils.getResultFromRequest(apiObject, method, request.getPathPart(1));
 			} catch (JsonMappingException e) {
 				e.printStackTrace();
 			} catch (JsonGenerationException e) {
@@ -88,9 +89,9 @@ public class RestRouterImpl implements RestRouter {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if (method.equals(arg1)) {
+		} else if (method.equals(request.getPathPart(1))) {
 			try {
-				result = RestUtils.getResultFromRequest(apiObject, method, arg2);
+				result = RestUtils.getResultFromRequest(apiObject, method, request.getPathPart(2));
 			} catch (JsonMappingException e) {
 				e.printStackTrace();
 			} catch (JsonGenerationException e) {
@@ -133,9 +134,8 @@ public class RestRouterImpl implements RestRouter {
 	public JSONObject getResponse(RestRequest req) {
 		this.restRequest = req;
 
-		String arg1 = null;
-		String arg2 = null;
-		return getResponse(req, req.getBasePath(), req.getPath(), req.getMethod().name(), arg1, arg2);
+
+		return getResponse(req, req.getBasePath(), req.getPath(), req.getMethod().name());
 
 	}
 

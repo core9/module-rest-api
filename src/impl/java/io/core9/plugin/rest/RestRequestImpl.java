@@ -203,7 +203,8 @@ public class RestRequestImpl implements RestRequest {
 
 	@Override
 	public void setPath(String path) {
-		pathParts = path.split("/");
+		String[] tmpPathParts = path.split("/");
+		pathParts = Arrays.copyOfRange(tmpPathParts, 1, tmpPathParts.length);
 		this.path = path;
 	}
 
