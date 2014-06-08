@@ -1,7 +1,5 @@
 package io.core9.plugin.rest;
 
-import io.core9.plugin.server.request.Request;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -18,9 +16,10 @@ public class RestRouterImpl implements RestRouter {
 
 	@InjectPlugin
 	private RestResourceModuleRegistry restResourceModuleRegistry;
+	@SuppressWarnings("unused")
 	private RestRequest restRequest;
 
-	private JSONObject getResponse(String basePath, String requestPath, String requestMethod, String arg1, String arg2) {
+	private JSONObject getResponse(RestRequest request, String basePath, String requestPath, String requestMethod, String arg1, String arg2) {
 
 		JSONObject result = new JSONObject();
 
@@ -44,28 +43,27 @@ public class RestRouterImpl implements RestRouter {
 			String path = (String) jsonObj.get("path");
 			String[] pathParts = path.split("\\{");
 
-			// change to switch
-			if (requestMethod.equals("GET")) {
+			switch (request.getMethod()) {
+			case DELETE:
+				break;
+			case PUT:
+				break;
+			case GET:
 				result = handleGet(result, apiObject, method, arg1, arg2, pathParts);
-			} else if (requestMethod.equals("POST")) {
-				result = handlePost(result, apiObject, method, arg1, arg2, pathParts);
-			} else if (requestMethod.equals("PUT")) {
-				result = handlePut(result, apiObject, method, arg1, arg2, pathParts);
+				break;
+			case POST:
+				break;
+			case HEAD:
+				break;
+			case OPTIONS:
+				break;
+			default:
+				System.out.println("method not catched");
 			}
 
 		}
 
 		return result;
-	}
-
-	private JSONObject handlePut(JSONObject result, Object apiObject, String method, String arg1, String arg2, String[] pathParts) {
-		// String put = request.getBody();
-		return null;
-	}
-
-	private JSONObject handlePost(JSONObject result, Object apiObject, String method, String arg1, String arg2, String[] pathParts) {
-		// String post = request.getBody();
-		return new JSONObject();
 	}
 
 	private JSONObject handleGet(JSONObject result, Object apiObject, String method, String arg1, String arg2, String[] pathParts) {
@@ -137,13 +135,8 @@ public class RestRouterImpl implements RestRouter {
 
 		String arg1 = null;
 		String arg2 = null;
-		return getResponse(req.getBasePath(), req.getPath(), req.getMethod().name(), arg1, arg2);
+		return getResponse(req, req.getBasePath(), req.getPath(), req.getMethod().name(), arg1, arg2);
 
-	}
-
-	@Override
-	public JSONObject getResponse(Request req) {
-		return null;
 	}
 
 }
