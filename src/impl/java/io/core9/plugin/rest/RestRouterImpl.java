@@ -27,6 +27,7 @@ public class RestRouterImpl implements RestRouter {
 
 		String resource = "/" + request.getPathPart(0);
 		// currently does not support sub resources only /api/param eq (/pet/1)
+		// use this to fix : https://github.com/wordnik/swagger-spec/blob/master/versions/1.2.md#definitionResource
 		apiResource = restResourceModuleRegistry.getResource(resource);
 		apiJson = apiResource.getApi();
 		JSONArray apis = (JSONArray) apiJson.get("apis");
