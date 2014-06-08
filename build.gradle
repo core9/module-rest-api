@@ -52,8 +52,13 @@ dependencies {
 	//compile files('libs/mod-rxvertx-1.0.0-beta3-SNAPSHOT.jar')
 	
 	
-	compile "io.vertx:vertx-core:2.1RC3"
-	compile "io.vertx:vertx-platform:2.1RC3"
+	compile "io.vertx:vertx-core:2.1"
+	compile "io.vertx:vertx-platform:2.1"
+	
+	//compile 'com.hazelcast:hazelcast:3.2.2'
+	compile 'io.vertx:vertx-hazelcast:2.1'
+
+	
 	testCompile 'io.vertx:testtools:2.0.3-final'
 	
 	compile 'com.netflix.rxjava:rxjava-core:0.17.6'
@@ -66,12 +71,12 @@ dependencies {
 
 	
 	testCompile 'io.core9:core:1.0.27'
-	testCompile 'io.core9:module-widgets-api:+'
-	testCompile 'io.core9:module-server:+'
-	testCompile 'io.core9:module-server-vertx:+'
+	//testCompile 'io.core9:module-widgets-api:+'
+	//testCompile 'io.core9:module-server:+'
+	//testCompile 'io.core9:module-server-vertx:+'
 	testCompile 'io.core9:module-template-engine-closure:+'
 	testCompile 'io.core9:module-authentication:+'
-	testCompile 'io.core9:module-authentication-api:+'
+	//testCompile 'io.core9:module-authentication-api:+'
 	testCompile 'io.core9:module-authentication-standard:+'
 	testCompile 'io.core9:module-database:+'
 	testCompile 'io.core9:module-database-mongodb:+'
