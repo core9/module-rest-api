@@ -44,6 +44,7 @@ public class RestRequestImpl implements RestRequest {
 	private List<Cookie> cookies;
 	private Map<String, Object> bodyAsMap;
 	private List<Object> bodyAsList;
+	private String basePath;
 
 	@Override
 	public String getPath() {
@@ -265,6 +266,16 @@ public class RestRequestImpl implements RestRequest {
 		json.put("host", vhost.getHostname());
 		
 		return json;
+	}
+
+	@Override
+	public void setBasePath(String basePath) {
+		this.basePath = basePath;
+	}
+	
+	@Override
+	public String getBasePath(){
+		return basePath;
 	}
 
 }

@@ -118,5 +118,9 @@ public interface RestRequest {
 
 	JSONObject toJson();
 
+	void setBasePath(String basePath);
+
+	String getBasePath();
+
 
 }
