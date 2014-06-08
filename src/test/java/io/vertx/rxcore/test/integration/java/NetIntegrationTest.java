@@ -17,16 +17,18 @@ package io.vertx.rxcore.test.integration.java;
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 
+import static org.vertx.testtools.VertxAssert.assertTrue;
+import static org.vertx.testtools.VertxAssert.testComplete;
 import io.vertx.rxcore.java.net.RxNetClient;
 import io.vertx.rxcore.java.net.RxNetServer;
 import io.vertx.rxcore.java.net.RxNetSocket;
+
 import org.junit.Test;
 import org.vertx.java.core.buffer.Buffer;
 import org.vertx.testtools.TestVerticle;
+
 import rx.Observable;
 import rx.functions.Action1;
-
-import static org.vertx.testtools.VertxAssert.*;
 
 public class NetIntegrationTest extends TestVerticle {
 

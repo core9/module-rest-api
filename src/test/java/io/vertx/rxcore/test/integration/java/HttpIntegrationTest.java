@@ -1,9 +1,19 @@
 package io.vertx.rxcore.test.integration.java;
 
-import java.util.*;
-
+import static io.vertx.rxcore.test.integration.java.RxAssert.assertError;
+import static io.vertx.rxcore.test.integration.java.RxAssert.assertSequenceThenComplete;
+import static io.vertx.rxcore.test.integration.java.RxAssert.assertSingle;
 import io.vertx.rxcore.RxSupport;
-import io.vertx.rxcore.java.http.*;
+import io.vertx.rxcore.java.http.RxHttpClient;
+import io.vertx.rxcore.java.http.RxHttpClientResponse;
+import io.vertx.rxcore.java.http.RxHttpServer;
+import io.vertx.rxcore.java.http.RxHttpServerRequest;
+import io.vertx.rxcore.java.http.RxServerWebSocket;
+import io.vertx.rxcore.java.http.RxWebSocket;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 import org.vertx.java.core.buffer.Buffer;
@@ -13,7 +23,6 @@ import org.vertx.testtools.TestVerticle;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
-import static io.vertx.rxcore.test.integration.java.RxAssert.*;
 
 /** HttpIntegrationTest
  * @author <a href="http://github.com/petermd">Peter McDonnell</a>

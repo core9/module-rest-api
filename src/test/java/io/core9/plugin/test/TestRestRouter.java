@@ -1,11 +1,7 @@
 package io.core9.plugin.test;
 
-import static org.junit.Assert.*;
-import net.minidev.json.JSONObject;
-
-import org.junit.Before;
-import org.junit.Test;
-
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import io.core9.core.PluginRegistry;
 import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
@@ -14,6 +10,7 @@ import io.core9.plugin.rest.RestRequestImpl;
 import io.core9.plugin.rest.RestRouter;
 import io.core9.plugin.rest.RestRouterImpl;
 import io.core9.plugin.server.request.Method;
+import net.minidev.json.JSONObject;
 
 
 @SuppressWarnings("unused")

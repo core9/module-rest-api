@@ -1,15 +1,9 @@
 package io.core9.plugin.rest;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 @PluginImplementation
 public class RestRouterImpl implements RestRouter {
@@ -32,18 +26,17 @@ public class RestRouterImpl implements RestRouter {
 		}
 
 		String resource = "/" + request.getPathPart(0);
-		// currently does not support sub resources only /api/param eq (/pet/1) 
+		// currently does not support sub resources only /api/param eq (/pet/1)
 		apiResource = restResourceModuleRegistry.getResource(resource);
 		apiJson = apiResource.getApi();
 		JSONArray apis = (JSONArray) apiJson.get("apis");
 		Object apiObject = apiResource.getResourceObject();
 
+		// FIXME this loop should not exist make a map at boot time!!
 		for (Object api : apis) {
 
 			JSONObject jsonObj = (JSONObject) api;
 			String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
-			//String path = (String) jsonObj.get("path");
-		
 
 			switch (request.getMethod()) {
 			case DELETE:
@@ -69,46 +62,9 @@ public class RestRouterImpl implements RestRouter {
 
 	private JSONObject handleGet(RestRequest request, JSONObject result, Object apiObject, String method) {
 		if (request.getPathPartNr() > 1) {
-			// arg 1 is id
-			try {
-				result = RestUtils.getResultFromRequest(apiObject, method, request.getPathPart(1));
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (JsonGenerationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			result = RestUtils.getResultFromRequest(apiObject, method, request.getPathPart(1));
 		} else if (method.equals(request.getPathPart(1))) {
-			try {
-				result = RestUtils.getResultFromRequest(apiObject, method, request.getPathPart(2));
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (JsonGenerationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			result = RestUtils.getResultFromRequest(apiObject, method, request.getPathPart(2));
 		}
 		return result;
 	}
@@ -133,7 +89,6 @@ public class RestRouterImpl implements RestRouter {
 	@Override
 	public JSONObject getResponse(RestRequest req) {
 		this.restRequest = req;
-
 
 		return getResponse(req, req.getBasePath(), req.getPath(), req.getMethod().name());
 

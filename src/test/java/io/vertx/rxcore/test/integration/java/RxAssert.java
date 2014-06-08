@@ -1,16 +1,22 @@
 package io.vertx.rxcore.test.integration.java;
 
-import java.util.*;
+import static org.vertx.testtools.VertxAssert.assertEquals;
+import static org.vertx.testtools.VertxAssert.assertTrue;
+import static org.vertx.testtools.VertxAssert.fail;
+import static org.vertx.testtools.VertxAssert.testComplete;
+import io.vertx.rxcore.java.eventbus.RxMessage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import io.vertx.rxcore.java.eventbus.RxMessage;
 import rx.Observable;
 import rx.Subscription;
-import rx.plugins.RxJavaErrorHandler;
-import rx.plugins.RxJavaPlugins;
 import rx.functions.Action0;
 import rx.functions.Action1;
-import static org.vertx.testtools.VertxAssert.*;
+import rx.plugins.RxJavaErrorHandler;
+import rx.plugins.RxJavaPlugins;
 
 
 /** Assertion utilities for Rx Observables

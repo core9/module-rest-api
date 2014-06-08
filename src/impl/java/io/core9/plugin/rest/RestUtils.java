@@ -32,13 +32,45 @@ public class RestUtils {
 		return resourceMap;
 	}
 
-	public static JSONObject getResultFromRequest(Object obj, String method, String arg) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, JsonMappingException, JsonGenerationException, IOException {
+	public static JSONObject getResultFromRequest(Object obj, String method, String arg) {
 
 		Object methodObj = null;
-		methodObj = obj.getClass().getMethod(method, String.class);
-		Response response = (Response) ((Method) methodObj).invoke(obj, arg);
+		try {
+			methodObj = obj.getClass().getMethod(method, String.class);
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Response response = null;
+		try {
+			response = (Response) ((Method) methodObj).invoke(obj, arg);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Object entity = response.getEntity();
-		String jsonString = PojoMapper.toJson(entity, true);
+		String jsonString = null;
+		try {
+			jsonString = PojoMapper.toJson(entity, true);
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		JSONObject result = (JSONObject) JSONValue.parse(jsonString);
 		

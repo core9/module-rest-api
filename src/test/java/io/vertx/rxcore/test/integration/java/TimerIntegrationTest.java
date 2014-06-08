@@ -1,5 +1,10 @@
 package io.vertx.rxcore.test.integration.java;
 
+import static io.vertx.rxcore.test.integration.java.RxAssert.assertCount;
+import static io.vertx.rxcore.test.integration.java.RxAssert.assertCountThen;
+import static io.vertx.rxcore.test.integration.java.RxAssert.assertCountThenComplete;
+import static org.vertx.testtools.VertxAssert.assertTrue;
+import static org.vertx.testtools.VertxAssert.testComplete;
 import io.vertx.rxcore.java.timer.RxTimer;
 
 import org.junit.Test;
@@ -9,11 +14,6 @@ import org.vertx.testtools.TestVerticle;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action0;
-import static io.vertx.rxcore.test.integration.java.RxAssert.assertCount;
-import static io.vertx.rxcore.test.integration.java.RxAssert.assertCountThen;
-import static io.vertx.rxcore.test.integration.java.RxAssert.assertCountThenComplete;
-import static org.vertx.testtools.VertxAssert.assertTrue;
-import static org.vertx.testtools.VertxAssert.testComplete;
 
 /**
  * TimerIntegrationTest

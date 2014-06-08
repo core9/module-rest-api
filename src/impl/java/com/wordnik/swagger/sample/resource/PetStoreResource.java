@@ -16,13 +16,22 @@
 
 package com.wordnik.swagger.sample.resource;
 
-import com.wordnik.swagger.annotations.*;
-import com.wordnik.swagger.sample.data.StoreData;
-import com.wordnik.swagger.sample.model.Order;
-import com.wordnik.swagger.sample.exception.NotFoundException;
-
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.*;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.sample.data.StoreData;
+import com.wordnik.swagger.sample.exception.NotFoundException;
+import com.wordnik.swagger.sample.model.Order;
 
 @Path("/store")
 @Api(value="/store" , description = "Operations about store")
