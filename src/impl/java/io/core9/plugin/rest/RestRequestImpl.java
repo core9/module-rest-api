@@ -6,16 +6,11 @@ import io.core9.plugin.server.request.Method;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.server.request.Response;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import net.minidev.json.JSONObject;
 
@@ -45,78 +40,52 @@ public class RestRequestImpl implements RestRequest {
 	private Map<String, Object> bodyAsMap;
 	private List<Object> bodyAsList;
 	private String basePath;
+	private String[] pathParts;
 
 	@Override
-	public String getPath() {
-		return path;
-	}
-
-	@Override
-	public Response getResponse() {
-		return response;
-	}
-
-	public RestRequestImpl(Request request) {
-		this.request = request;
-		this.context = new HashMap<String, Object>();
-		this.path = request.getPath();
-		this.params = new HashMap<String, Object>();
-		for (Entry<String, Object> entry : request.getParams().entrySet()) {
-			this.params.put(entry.getKey(), entry.getValue());
-		}
-		this.type = methods.get(request.getMethod());
-		this.response = request.getResponse();
-	}
-
-	public RestRequestImpl() {
-
-	}
-
-	@Override
-	public Method getMethod() {
-		return type;
-	}
-
-	@Override
-	public Map<String, Object> getParams() {
-		return this.params;
-	}
-
-	@SuppressWarnings("unchecked")
-	private static Map<String, Object> splitQuery(String query) {
-		if (query == null || query.length() == 0)
-			return new HashMap<String, Object>();
-		String[] pairs = query.split("&");
-		Map<String, Object> query_pairs = new HashMap<String, Object>();
-		for (String pair : pairs) {
-			int idx = pair.indexOf("=");
-			try {
-				String key = URLDecoder.decode(pair.substring(0, idx), "UTF-8");
-				String value = URLDecoder.decode(pair.substring(idx + 1),
-						"UTF-8");
-				Set<String> queryKeys = query_pairs.keySet();
-
-				if (!queryKeys.isEmpty() && queryKeys.contains(key)) {
-					ArrayList<String> paramList = new ArrayList<>();
-					Object list = query_pairs.get(key);
-					if (list instanceof String) {
-						paramList.add(value);
-					} else if (list instanceof ArrayList) {
-						paramList
-								.addAll((Collection<? extends String>) query_pairs
-										.get(key));
-						paramList.add(value);
-					}
-					query_pairs.put(key, paramList);
-				} else {
-					query_pairs.put(key, value);
+	public List<Cookie> getAllCookies(String name) {
+		List<Cookie> foundCookies = new ArrayList<>();
+		if (cookies != null) {
+			for (Cookie c : cookies) {
+				if (name.equals(c.getName())) {
+					foundCookies.add(c);
 				}
-
-			} catch (UnsupportedEncodingException e) {
-				return new HashMap<>();
 			}
 		}
-		return query_pairs;
+		return foundCookies;
+	}
+
+	@Override
+	public String getBasePath() {
+		return basePath;
+	}
+
+	@Override
+	public String getBody() {
+		return body;
+	}
+
+	@Override
+	public List<Object> getBodyAsList() {
+
+		if (bodyAsList != null) {
+			return bodyAsList;
+		}
+		return Arrays.asList(new JsonArray(body).toArray());
+	}
+
+	@Override
+	public Map<String, Object> getBodyAsMap() {
+
+		if (bodyAsMap != null) {
+			return bodyAsMap;
+		}
+		return new JsonObject(body).toMap();
+	}
+
+	@Override
+	public Map<String, Object> getContext() {
+		return this.context;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -134,86 +103,16 @@ public class RestRequestImpl implements RestRequest {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <R> R putContext(String name, R value) {
-		return (R) this.context.put(name, value);
-	}
-
-	@Override
-	public Map<String, Object> getContext() {
-		return this.context;
-	}
-
-	@Override
-	public void setBody(String body) {
-		this.body = body;
-	}
-
-	@Override
-	public String getBody() {
-		return body;
-	}
-
-	@Override
-	public List<Object> getBodyAsList() {
-
-		if (bodyAsList != null) {
-			return bodyAsList;
-		}
-
-		return Arrays.asList(new JsonArray(body).toArray());
-	}
-
-	@Override
-	public Map<String, Object> getBodyAsMap() {
-
-		if (bodyAsMap != null) {
-			return bodyAsMap;
-		}
-
-		if (this.context.containsKey("is_json_object")
-				&& (boolean) this.context.get("is_json_object")) {
-			return new JsonObject(body).toMap();
-		} else {
-			return splitQuery(body);
-		}
-	}
-
-	@Override
-	public VirtualHost getVirtualHost() {
-		return this.vhost;
-	}
-
-	@Override
-	public List<Cookie> getAllCookies(String name) {
-		List<Cookie> foundCookies = new ArrayList<>();
-		if (cookies != null) {
-			for (Cookie c : cookies) {
-				if (name.equals(c.getName())) {
-					foundCookies.add(c);
-				}
-			}
-		}
-		return foundCookies;
-	}
-
 	@Override
 	public Cookie getCookie(String name) {
 		if (cookies != null) {
 			for (Cookie c : cookies) {
-				if (name.equals(c.getName())
-						&& ("/".equals(c.getPath()) || c.getPath() == null)) {
+				if (name.equals(c.getName()) && ("/".equals(c.getPath()) || c.getPath() == null)) {
 					return c;
 				}
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public void setCookies(List<Cookie> cookies) {
-		this.cookies = cookies;
 	}
 
 	@Override
@@ -227,18 +126,59 @@ public class RestRequestImpl implements RestRequest {
 	}
 
 	@Override
-	public void setPath(String path) {
-		this.path = path;
+	public Method getMethod() {
+		return type;
 	}
 
 	@Override
-	public void setParams(Map<String, Object> params) {
-		this.params = params;
+	public Map<String, Object> getParams() {
+		return this.params;
 	}
 
 	@Override
-	public void setMethod(Method method) {
-		type = method;
+	public String getPath() {
+		return path;
+	}
+
+	@Override
+	public String getPathPart(int part) {
+		return pathParts[part];
+	}
+
+	@Override
+	public int getPathPartNr() {
+		return pathParts.length;
+	}
+
+	@Override
+	public Response getResponse() {
+		return response;
+	}
+
+	@Override
+	public VirtualHost getVirtualHost() {
+		return this.vhost;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <R> R putContext(String name, R value) {
+		return (R) this.context.put(name, value);
+	}
+
+	@Override
+	public void setBasePath(String basePath) {
+		this.basePath = basePath;
+	}
+
+	@Override
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	@Override
+	public void setBodyAsList(List<Object> bodyAsList) {
+		this.bodyAsList = bodyAsList;
 	}
 
 	@Override
@@ -247,8 +187,24 @@ public class RestRequestImpl implements RestRequest {
 	}
 
 	@Override
-	public void setBodyAsList(List<Object> bodyAsList) {
-		this.bodyAsList = bodyAsList;
+	public void setCookies(List<Cookie> cookies) {
+		this.cookies = cookies;
+	}
+
+	@Override
+	public void setMethod(Method method) {
+		type = method;
+	}
+
+	@Override
+	public void setParams(Map<String, Object> params) {
+		this.params = params;
+	}
+
+	@Override
+	public void setPath(String path) {
+		pathParts = path.split("/");
+		this.path = path;
 	}
 
 	@Override
@@ -259,23 +215,13 @@ public class RestRequestImpl implements RestRequest {
 	@Override
 	public JSONObject toJson() {
 		JSONObject json = new JSONObject();
-		
+
 		json.put("method", type.name());
 		json.put("path", path);
 		json.put("params", new JSONObject(params));
 		json.put("host", vhost.getHostname());
-		
-		return json;
-	}
 
-	@Override
-	public void setBasePath(String basePath) {
-		this.basePath = basePath;
-	}
-	
-	@Override
-	public String getBasePath(){
-		return basePath;
+		return json;
 	}
 
 }

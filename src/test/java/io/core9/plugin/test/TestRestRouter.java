@@ -1,11 +1,19 @@
 package io.core9.plugin.test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+import net.minidev.json.JSONObject;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import io.core9.core.PluginRegistry;
 import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
+import io.core9.plugin.rest.RestRequest;
+import io.core9.plugin.rest.RestRequestImpl;
 import io.core9.plugin.rest.RestRouter;
 import io.core9.plugin.rest.RestRouterImpl;
+import io.core9.plugin.server.request.Method;
 
 
 @SuppressWarnings("unused")
@@ -31,13 +39,17 @@ public class TestRestRouter {
 	//@Test
 	public void restRouterGetApiForPet() {
 
-		String requestPath = "/pet-docs";
-		String requestMethod = "GET";
-		String arg1 = "1";
-		String arg2 = "";
-		/*JSONObject response = restRouter.getResponse(basePath, requestPath, requestMethod, arg1, arg2);
 
-		assertTrue(response.get("resourcePath").equals("/pet"));*/
+		RestRequest request = new RestRequestImpl();
+		
+		request.setBasePath("/api");
+		request.setMethod(Method.GET);
+		request.setPath("/pet-docs");
+		
+		
+		JSONObject response = restRouter.getResponse(request );
+
+		assertTrue(response.get("resourcePath").equals("/pet"));
 	}
 	
 	//@Test

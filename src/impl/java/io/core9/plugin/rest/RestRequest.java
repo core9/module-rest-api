@@ -122,5 +122,9 @@ public interface RestRequest {
 
 	String getBasePath();
 
+	String getPathPart(int part);
+
+	int getPathPartNr();
+
 
 }
