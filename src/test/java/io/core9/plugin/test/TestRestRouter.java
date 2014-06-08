@@ -17,6 +17,7 @@ public class TestRestRouter {
 
 	private String basePath = "/api";
 
+	// these test will generate a perm gen problem in travis
 	//@Before
 	public void setUp() {
 		BootstrapFramework.run();
