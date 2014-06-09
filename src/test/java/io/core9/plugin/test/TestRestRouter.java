@@ -2,6 +2,10 @@ package io.core9.plugin.test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import io.core9.core.PluginRegistry;
 import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
@@ -21,7 +25,7 @@ public class TestRestRouter {
 
 
 	// these test will generate a perm gen problem in travis
-	//@Before
+	@Before
 	public void setUp() {
 		BootstrapFramework.run();
 		registry = PluginRegistryImpl.getInstance();
@@ -47,7 +51,7 @@ public class TestRestRouter {
 		assertTrue(response.get("resourcePath").equals("/pet"));
 	}
 	
-	//@Test
+	@Test
 	public void restRouterGetPetById() {
 
 
@@ -64,4 +68,22 @@ public class TestRestRouter {
 		assertTrue(response.toString().replace("\"", "'").equals("{'photoUrls':['url1','url2'],'name':'Cat 1','id':1,'category':{'name':'Cats','id':2},'tags':[{'name':'tag1','id':1},{'name':'tag2','id':2}],'status':'available'}"));
 	}
 
+	@Test
+	public void restRouterGetfindByTags() {
+
+
+		
+		RestRequest request = new RestRequestImpl();
+		
+		request.setBasePath("/api");
+		request.setMethod(Method.GET);
+		request.setPath("/api/pet/findByTags?tags=tag1%2Ctag2%2Cpet");
+		
+		
+		JSONObject response = restRouter.getResponse(request);
+
+		System.out.println(response);
+	}
+
+	
 }

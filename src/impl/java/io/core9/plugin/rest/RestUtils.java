@@ -105,4 +105,21 @@ public class RestUtils {
 		return req;
 	}
 
+	public static String getApiPath(String apiPath) {
+		String[] apiRequest = apiPath.split("-");
+		return apiRequest[0];
+	}
+
+	public static boolean ifApiRequest(String apiPath) {
+		String[] apiRequest = apiPath.split("-");
+		if (apiRequest.length == 1) {
+			return false;
+		}
+		if ("docs".equals(apiRequest[1])) {
+			return true;
+		}
+
+		return false;
+	}
+	
 }

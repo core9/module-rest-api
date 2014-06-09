@@ -10,33 +10,28 @@ public class RestRouterImpl implements RestRouter {
 
 	@InjectPlugin
 	private RestResourceModuleRegistry restResourceModuleRegistry;
-	@SuppressWarnings("unused")
-	private RestRequest restRequest;
 
-	private JSONObject getResponse(RestRequest request, String basePath, String requestPath, String requestMethod) {
 
+
+	public JSONObject getResponse(RestRequest request) {
+
+		if (RestUtils.ifApiRequest(request.getPath())) {
+			return restResourceModuleRegistry.getResource(RestUtils.getApiPath(request.getPath())).getApi();
+		}
+		
 		JSONObject result = new JSONObject();
 
-		RestResource apiResource;
-		JSONObject apiJson;
-		if (ifApiRequest(request.getPath())) {
-			apiResource = restResourceModuleRegistry.getResource(getApiPath(request.getPath()));
-			apiJson = apiResource.getApi();
-			return apiJson;
-		}
-
-		String resource = "/" + request.getPathPart(0);
 		// currently does not support sub resources only /api/param eq (/pet/1)
 		// use this to fix : https://github.com/wordnik/swagger-spec/blob/master/versions/1.2.md#definitionResource
-		apiResource = restResourceModuleRegistry.getResource(resource);
-		apiJson = apiResource.getApi();
-		JSONArray apis = (JSONArray) apiJson.get("apis");
+
+		RestResource apiResource = restResourceModuleRegistry.getResource("/" + request.getPathPart(0));
+		JSONArray resources = (JSONArray) apiResource.getApi().get("apis");
 		Object apiObject = apiResource.getResourceObject();
 
 		// FIXME this loop should not exist make a map at boot time!!
-		for (Object api : apis) {
+		for (Object resource : resources) {
 
-			JSONObject jsonObj = (JSONObject) api;
+			JSONObject jsonObj = (JSONObject) resource;
 			String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
 
 			switch (request.getMethod()) {
@@ -70,29 +65,8 @@ public class RestRouterImpl implements RestRouter {
 		return result;
 	}
 
-	private String getApiPath(String apiPath) {
-		String[] apiRequest = apiPath.split("-");
-		return apiRequest[0];
-	}
 
-	private boolean ifApiRequest(String apiPath) {
-		String[] apiRequest = apiPath.split("-");
-		if (apiRequest.length == 1) {
-			return false;
-		}
-		if ("docs".equals(apiRequest[1])) {
-			return true;
-		}
 
-		return false;
-	}
 
-	@Override
-	public JSONObject getResponse(RestRequest req) {
-		this.restRequest = req;
-
-		return getResponse(req, req.getBasePath(), req.getPath(), req.getMethod().name());
-
-	}
 
 }
