@@ -16,17 +16,20 @@
 
 package com.wordnik.swagger.sample.resource;
 
-import com.wordnik.swagger.annotations.*;
-import com.wordnik.swagger.sample.model.Owner;
-import com.wordnik.swagger.sample.exception.NotFoundException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.*;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.sample.exception.NotFoundException;
+import com.wordnik.swagger.sample.model.Owner;
 
 @Path("/owner")
 @Api(value = "/owner", description = "Operations about the owners", position = 1)
 @Produces("application/json")
 public class OwnerResource {
+	@SuppressWarnings("unused")
 	private String petId;
 
 	public OwnerResource(){}
