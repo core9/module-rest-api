@@ -13,14 +13,12 @@ import io.core9.plugin.server.request.Method;
 import net.minidev.json.JSONObject;
 
 
-@SuppressWarnings("unused")
 public class TestRestRouter {
 
 	private PluginRegistry registry;
 	private RestRouter restRouter;
 
 
-	private String basePath = "/api";
 
 	// these test will generate a perm gen problem in travis
 	//@Before
@@ -41,7 +39,7 @@ public class TestRestRouter {
 		
 		request.setBasePath("/api");
 		request.setMethod(Method.GET);
-		request.setPath("/pet-docs");
+		request.setPath("/api/pet-docs");
 		
 		
 		JSONObject response = restRouter.getResponse(request );
@@ -58,7 +56,7 @@ public class TestRestRouter {
 		
 		request.setBasePath("/api");
 		request.setMethod(Method.GET);
-		request.setPath("/pet/1");
+		request.setPath("/api/pet/1");
 		
 		
 		JSONObject response = restRouter.getResponse(request);

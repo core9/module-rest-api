@@ -106,4 +106,15 @@ public class PetResource {
 			@ApiParam(value = "Tags to filter by", required = true, allowMultiple = true) @QueryParam("tags") String tags) {
 		return Response.ok(petData.findPetByTags(tags)).build();
 	}
+	
+	@GET
+	  @Path("/{petId}/owner")
+	  @ApiOperation(
+	    value = "Gets the owner of a pet", 
+	    response = OwnerResource.class)
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID supplied"),
+			@ApiResponse(code = 404, message = "Pet not found") })
+	  public OwnerResource getOwners(@PathParam("petId") String petId) {
+	    return new OwnerResource(petId);
+	  }
 }
