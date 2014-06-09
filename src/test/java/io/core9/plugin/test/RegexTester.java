@@ -1,56 +1,58 @@
 package io.core9.plugin.test;
 
-import java.util.regex.Matcher;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
 
+import com.sun.jersey.api.uri.UriTemplate;
+import com.sun.jersey.api.uri.UriTemplateParser;
+
 public class RegexTester {
 
-	//@Test
-	public void getRegexFromUrl() {
 
-		String s = "/pet/{petId : [0-9]}/order";
-		Pattern p = Pattern.compile("\\{([^}]*)\\}");
-
-		String regex = getRegex(s,p);
-		
-		System.out.println(regex);
-
-
-		
-	}
 	
 	
-	//@Test 
-	public void getValueOfRegexMatch(){
-		
-		String newString = "/pet/1/order";
-		String regex = "[0-9]";
-		String pat = "/pet/"+regex+"/order";
-		Pattern newPattern = Pattern.compile(pat);
-		
-		boolean value = getMatches(newString, newPattern);
-		
-		System.out.println(value);
-		
+	
+	@Test
+	public void testJerseyUriTemplates(){
+		String path = "/foos/foo/bars/bar";
+
+		Map<String, String> map = new HashMap<String, String>();
+		UriTemplate template = new UriTemplate("/foos/{fooId}/bars/{barId}");
+		if( template.match(path, map) ) {
+		    System.out.println("Matched, " + map);
+		} else {
+		    System.out.println("Not matched, " + map);
+		}  
 	}
 
-	private boolean getMatches(String s, Pattern p) {
-		Matcher m = p.matcher(s);
+	@Test
+	public void testJerseyUriPattern(){
+
 		
+		UriTemplateParser parser = new UriTemplateParser("/foos/{fooId : [a-z] }/bars/{barId}");
 		
+		Map<String, Pattern> tmp = parser.getNameToPattern();
 		
-		return m.matches();
-	}
-	
-	private String getRegex(String s, Pattern p) {
-		Matcher m = p.matcher(s);
-		while (m.find()) {
-			String[] regex = m.group(1).split(":");
-			return regex[1].trim();
+		for(Entry<String, Pattern> item : tmp.entrySet()){
+			System.out.println(item.getKey() + " : " + item.getValue());
 		}
-		return null;
 	}
 
+	@Test
+	public void testJerseyGetTemplateFromUriPattern(){
+
+		
+		UriTemplateParser parser = new UriTemplateParser("/foos/{fooId : [a-z] }/bars/{barId}");
+		
+		String template = parser.getNormalizedTemplate();
+		
+		System.out.println("normalized template : " + template);
+	}
+
+
+	
 }
