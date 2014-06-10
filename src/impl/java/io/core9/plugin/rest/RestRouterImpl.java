@@ -80,25 +80,63 @@ public class RestRouterImpl implements RestRouter {
 		System.out.println("");
 		String path = (String) jsonObj.get("path");
 		System.out.println("path : " + path);
-		String nickname = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
-		System.out.println("nickname : " + nickname);
 		
-		String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("method");
-		System.out.println("method : " + method);
+		JSONArray operations = (JSONArray) jsonObj.get("operations");
+		if(operations.size() == 1){
+
+			String nickname = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
+			System.out.println("nickname : " + nickname);
+			
+			String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("method");
+			System.out.println("method : " + method);
+			
+			UriTemplateParser parser = new UriTemplateParser(path);
+			String template = parser.getNormalizedTemplate();
+			
+			System.out.println("normalized template : " + template);
+			
+			Map<String, String> map = new HashMap<String, String>();
+			UriTemplate uriTemplate = new UriTemplate(template);
+			if( uriTemplate.match(path, map) ) {
+			    System.out.println("Matched, " + map);
+			} else {
+			    System.out.println("Not matched, " + map);
+			}  
+			//System.out.println(jsonObj);
+			
+		}else{
+			for(Object operation : operations){
+				
+				JSONObject op = (JSONObject)operation;
+				//System.out.println(op);
+				//
+				
+				String nickname = (String)op.get("nickname");
+				System.out.println("nickname : " + nickname);
+				
+				String method = (String)op.get("method");
+				System.out.println("method : " + method);
+						
+				UriTemplateParser parser = new UriTemplateParser(path);
+				String template = parser.getNormalizedTemplate();
+				
+				System.out.println("normalized template : " + template);
+				
+				Map<String, String> map = new HashMap<String, String>();
+				UriTemplate uriTemplate = new UriTemplate(template);
+				if( uriTemplate.match(path, map) ) {
+				    System.out.println("Matched, " + map);
+				} else {
+				    System.out.println("Not matched, " + map);
+				} 
+				
+				//
+				
+				
+			}
+		}
 		
-		UriTemplateParser parser = new UriTemplateParser(path);
-		String template = parser.getNormalizedTemplate();
-		
-		System.out.println("normalized template : " + template);
-		
-		Map<String, String> map = new HashMap<String, String>();
-		UriTemplate uriTemplate = new UriTemplate(template);
-		if( uriTemplate.match(path, map) ) {
-		    System.out.println("Matched, " + map);
-		} else {
-		    System.out.println("Not matched, " + map);
-		}  
-		System.out.println(jsonObj);
+
 	}
 
 	private JSONObject handleGet(RestRequest request, JSONObject result, Object apiObject, String method) {
