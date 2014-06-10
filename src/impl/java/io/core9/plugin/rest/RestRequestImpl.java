@@ -226,4 +226,9 @@ public class RestRequestImpl implements RestRequest {
 		return json;
 	}
 
+	@Override
+	public String getHash(){
+		return path.split("/")[1] + type.name() + pathParts.length;//petPUT2
+	}
+	
 }

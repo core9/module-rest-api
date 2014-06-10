@@ -1,5 +1,6 @@
 package io.core9.plugin.rest;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,35 +78,16 @@ public class RestRouterImpl implements RestRouter {
 	}
 
 	private void processRequest(RestRequest request, JSONObject jsonObj) {
-		System.out.println("");
-		String path = (String) jsonObj.get("path");
-		System.out.println("path : " + path);
+
 		
 		JSONArray operations = (JSONArray) jsonObj.get("operations");
-		if(operations.size() == 1){
 
-			String nickname = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
-			System.out.println("nickname : " + nickname);
-			
-			String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("method");
-			System.out.println("method : " + method);
-			
-			UriTemplateParser parser = new UriTemplateParser(path);
-			String template = parser.getNormalizedTemplate();
-			
-			System.out.println("normalized template : " + template);
-			
-			Map<String, String> map = new HashMap<String, String>();
-			UriTemplate uriTemplate = new UriTemplate(template);
-			if( uriTemplate.match(path, map) ) {
-			    System.out.println("Matched, " + map);
-			} else {
-			    System.out.println("Not matched, " + map);
-			}  
-			//System.out.println(jsonObj);
-			
-		}else{
 			for(Object operation : operations){
+				
+				System.out.println("");
+				String path = (String) jsonObj.get("path");
+				System.out.println("path : " + path);
+				
 				
 				JSONObject op = (JSONObject)operation;
 				//System.out.println(op);
@@ -130,10 +112,15 @@ public class RestRouterImpl implements RestRouter {
 				    System.out.println("Not matched, " + map);
 				} 
 				
-				//
+				String hash = path.split("/")[1] + method + (path.split("/").length - 1);
+				System.out.println("New hash : " + hash);
+				System.out.println("Request hash : " + request.getHash());
+				if(request.getPathPartNr() == path.split("/").length - 1
+						&& request.getHash().equals(hash)){
+					System.out.println("Mmmatch");
+				}
 				
-				
-			}
+
 		}
 		
 

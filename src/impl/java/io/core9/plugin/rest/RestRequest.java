@@ -126,5 +126,7 @@ public interface RestRequest {
 
 	int getPathPartNr();
 
+	String getHash();
+
 
 }
