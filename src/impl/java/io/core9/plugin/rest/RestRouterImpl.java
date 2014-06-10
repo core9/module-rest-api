@@ -34,13 +34,21 @@ public class RestRouterImpl implements RestRouter {
 		JSONArray resources = (JSONArray) apiResource.getApi().get("apis");
 		Object apiObject = apiResource.getResourceObject();
 
+		for (Object resource : resources) {
+			JSONObject jsonObj = (JSONObject) resource;
+			
+			
+			processRequest(request, jsonObj);
+		}
+		
+		
 		// FIXME this loop should not exist make a map at boot time!!
 		for (Object resource : resources) {
 
 			JSONObject jsonObj = (JSONObject) resource;
 			
 			
-			processRequest(request, jsonObj);
+
 			
 			
 			
@@ -69,7 +77,14 @@ public class RestRouterImpl implements RestRouter {
 	}
 
 	private void processRequest(RestRequest request, JSONObject jsonObj) {
+		System.out.println("");
 		String path = (String) jsonObj.get("path");
+		System.out.println("path : " + path);
+		String nickname = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
+		System.out.println("nickname : " + nickname);
+		
+		String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("method");
+		System.out.println("method : " + method);
 		
 		UriTemplateParser parser = new UriTemplateParser(path);
 		String template = parser.getNormalizedTemplate();
@@ -83,7 +98,7 @@ public class RestRouterImpl implements RestRouter {
 		} else {
 		    System.out.println("Not matched, " + map);
 		}  
-		
+		System.out.println(jsonObj);
 	}
 
 	private JSONObject handleGet(RestRequest request, JSONObject result, Object apiObject, String method) {

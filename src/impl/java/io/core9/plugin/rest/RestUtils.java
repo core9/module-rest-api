@@ -38,23 +38,23 @@ public class RestUtils {
 		try {
 			methodObj = obj.getClass().getMethod(method, String.class);
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			//e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		Response response = null;
 		try {
 			response = (Response) ((Method) methodObj).invoke(obj, arg);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		Object entity = response.getEntity();
@@ -62,13 +62,13 @@ public class RestUtils {
 		try {
 			jsonString = PojoMapper.toJson(entity, true);
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
