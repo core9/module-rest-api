@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.sun.jersey.api.uri.UriTemplate;
 import com.sun.jersey.api.uri.UriTemplateParser;
 
-public class RegexTester {
+public class TestUrlMatcher {
 
 
 	

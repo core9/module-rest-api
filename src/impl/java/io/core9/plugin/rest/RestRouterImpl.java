@@ -1,5 +1,11 @@
 package io.core9.plugin.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.sun.jersey.api.uri.UriTemplate;
+import com.sun.jersey.api.uri.UriTemplateParser;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
@@ -32,6 +38,12 @@ public class RestRouterImpl implements RestRouter {
 		for (Object resource : resources) {
 
 			JSONObject jsonObj = (JSONObject) resource;
+			
+			
+			processRequest(request, jsonObj);
+			
+			
+			
 			String method = (String) ((JSONObject) ((JSONArray) jsonObj.get("operations")).get(0)).get("nickname");
 
 			switch (request.getMethod()) {
@@ -54,6 +66,24 @@ public class RestRouterImpl implements RestRouter {
 		}
 
 		return result;
+	}
+
+	private void processRequest(RestRequest request, JSONObject jsonObj) {
+		String path = (String) jsonObj.get("path");
+		
+		UriTemplateParser parser = new UriTemplateParser(path);
+		String template = parser.getNormalizedTemplate();
+		
+		System.out.println("normalized template : " + template);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		UriTemplate uriTemplate = new UriTemplate(template);
+		if( uriTemplate.match(path, map) ) {
+		    System.out.println("Matched, " + map);
+		} else {
+		    System.out.println("Not matched, " + map);
+		}  
+		
 	}
 
 	private JSONObject handleGet(RestRequest request, JSONObject result, Object apiObject, String method) {
