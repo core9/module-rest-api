@@ -35,6 +35,7 @@ public class Pet {
 	private String status;
 
 	@XmlElement(name = "id")
+	@ApiModelProperty(value = "id of pet", required = true)
 	public long getId() {
 		return id;
 	}
