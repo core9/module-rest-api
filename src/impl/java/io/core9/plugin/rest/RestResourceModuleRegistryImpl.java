@@ -63,6 +63,10 @@ public class RestResourceModuleRegistryImpl implements
 			String method = (String) op.get("method");
 			System.out.println("method : " + method);
 			resourceMap.put("method", method);
+			
+			JSONArray parameters = (JSONArray) op.get("parameters");
+			System.out.println("parameters : " + parameters);
+			resourceMap.put("parameters", parameters);
 
 			
 			UriTemplateParser parser = new UriTemplateParser(path);

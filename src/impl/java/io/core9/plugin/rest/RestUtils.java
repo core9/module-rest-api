@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import scala.Option;
@@ -79,6 +80,8 @@ public class RestUtils {
 
 	public static JSONObject getResultFromRequest(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
 
+		JSONArray parameters = (JSONArray) resourceMap.get("parameters");
+		
 		Response response = null;
 		Object methodObj = null;
 		try {
