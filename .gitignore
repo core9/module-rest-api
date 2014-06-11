@@ -9,3 +9,5 @@
 *~
 /jspf.cache
 /data
+*.lock
+*.bin

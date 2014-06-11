@@ -128,5 +128,7 @@ public interface RestRequest {
 
 	String getHash();
 
+	String getApi();
+
 
 }
