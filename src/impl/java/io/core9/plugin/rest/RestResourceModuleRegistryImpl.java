@@ -39,45 +39,40 @@ public class RestResourceModuleRegistryImpl implements RestResourceModuleRegistr
 	}
 
 	private void processRequest(JSONObject jsonObj) {
-		System.out.println("");
-		String path = (String) jsonObj.get("path");
-		System.out.println("path : " + path);
 
+		
 		JSONArray operations = (JSONArray) jsonObj.get("operations");
 
-		for (Object operation : operations) {
+			for(Object operation : operations){
+				
+				System.out.println("");
+				String path = (String) jsonObj.get("path");
+				System.out.println("path : " + path);
+				
+				
+				JSONObject op = (JSONObject)operation;
 
-			JSONObject op = (JSONObject) operation;
-			// System.out.println(op);
-			//
-
-			String nickname = (String) op.get("nickname");
-			System.out.println("nickname : " + nickname);
-
-			String method = (String) op.get("method");
-			System.out.println("method : " + method);
-
-			UriTemplateParser parser = new UriTemplateParser(path);
-			String template = parser.getNormalizedTemplate();
-
-			System.out.println("normalized template : " + template);
-
-			Map<String, String> map = new HashMap<String, String>();
-			UriTemplate uriTemplate = new UriTemplate(template);
-			if (uriTemplate.match(path, map)) {
-				System.out.println("Matched, " + map);
-			} else {
-				System.out.println("Not matched, " + map);
-			}
-
-			String hash = path.split("/")[1] + method + (path.split("/").length - 1);
-			System.out.println("New hash : " + hash);
-			/*
-			 * System.out.println("Request hash : " + request.getHash());
-			 * if(request.getPathPartNr() == path.split("/").length - 1 &&
-			 * request.getHash().equals(hash)){ System.out.println("Mmmatch"); }
-			 */
-
+				String nickname = (String)op.get("nickname");
+				System.out.println("nickname : " + nickname);
+				
+				String method = (String)op.get("method");
+				System.out.println("method : " + method);
+						
+				UriTemplateParser parser = new UriTemplateParser(path);
+				String template = parser.getNormalizedTemplate();
+				
+				System.out.println("normalized template : " + template);
+				
+				Map<String, String> map = new HashMap<String, String>();
+				UriTemplate uriTemplate = new UriTemplate(template);
+				if( uriTemplate.match(path, map) ) {
+				    System.out.println("Matched, " + map);
+				} else {
+				    System.out.println("Not matched, " + map);
+				} 
+				
+				String hash = path.split("/")[1] + method + (path.split("/").length - 1);
+				System.out.println("Hash : " + hash);
 		}
 
 	}
