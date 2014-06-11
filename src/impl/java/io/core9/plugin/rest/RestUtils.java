@@ -85,6 +85,7 @@ public class RestUtils {
 		Response response = null;
 		Object methodObj = null;
 		try {
+			// get signature from method with reflection and use that to initiate the method
 			methodObj = resourceObject.getClass().getMethod((String) resourceMap.get("nickname"), String.class);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
