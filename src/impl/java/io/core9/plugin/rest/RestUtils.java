@@ -85,7 +85,8 @@ public class RestUtils {
 		Response response = null;
 		Object methodObj = null;
 		try {
-			// get signature from method with reflection and use that to initiate the method
+			// get signature from method with reflection and use that to
+			// initiate the method
 			methodObj = resourceObject.getClass().getMethod((String) resourceMap.get("nickname"), String.class);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -128,6 +129,14 @@ public class RestUtils {
 
 		JSONArray parameters = (JSONArray) resourceMap.get("parameters");
 		System.out.println(parameters);
+	}
+
+	public static Class<?>[] getMethodSignature(Object receiver, String methodName) throws NoSuchMethodException, SecurityException {
+
+		Method method = receiver.getClass().getMethod(methodName);
+		Class<?>[] parameterTypes = method.getParameterTypes();
+		
+		return parameterTypes;
 	}
 
 }

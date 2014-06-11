@@ -11,3 +11,4 @@
 /data
 *.lock
 *.bin
+cache.properties
