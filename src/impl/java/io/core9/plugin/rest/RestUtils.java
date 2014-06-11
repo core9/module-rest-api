@@ -80,8 +80,8 @@ public class RestUtils {
 
 	public static JSONObject getResultFromRequest(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
 
-		JSONArray parameters = (JSONArray) resourceMap.get("parameters");
-		
+		validateAndInitiateMethodBasedOnParameters(resourceObject, request, resourceMap, urlParam);
+
 		Response response = null;
 		Object methodObj = null;
 		try {
@@ -93,15 +93,15 @@ public class RestUtils {
 		}
 
 		try {
-			response = (Response) ((Method) methodObj).invoke(resourceObject,"1"); //FIXME serious problem !!!!!!!!!
+			response = (Response) ((Method) methodObj).invoke(resourceObject, "1"); // FIXME
+																					// serious
+																					// problem
+																					// !!!!!!!!!
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -111,13 +111,10 @@ public class RestUtils {
 		try {
 			jsonString = PojoMapper.toJson(entity, true);
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -126,49 +123,10 @@ public class RestUtils {
 		return result;
 	}
 
-	public static JSONObject getResultFromRequest(Object obj, String method, String arg) {
+	private static void validateAndInitiateMethodBasedOnParameters(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
 
-		Object methodObj = null;
-		try {
-			methodObj = obj.getClass().getMethod(method, String.class);
-		} catch (NoSuchMethodException e) {
-
-			// e.printStackTrace();
-		} catch (SecurityException e) {
-
-			e.printStackTrace();
-		}
-		Response response = null;
-		try {
-			response = (Response) ((Method) methodObj).invoke(obj, arg);
-		} catch (IllegalAccessException e) {
-
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-
-			e.printStackTrace();
-		}
-		Object entity = response.getEntity();
-		String jsonString = null;
-		try {
-			jsonString = PojoMapper.toJson(entity, true);
-		} catch (JsonMappingException e) {
-
-			e.printStackTrace();
-		} catch (JsonGenerationException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-		JSONObject result = (JSONObject) JSONValue.parse(jsonString);
-
-		return result;
+		JSONArray parameters = (JSONArray) resourceMap.get("parameters");
+		System.out.println(parameters);
 	}
 
 }
