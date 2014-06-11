@@ -1,16 +1,16 @@
 package io.core9.plugin.rest;
 
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import com.sun.jersey.api.uri.UriTemplate;
-import com.sun.jersey.api.uri.UriTemplateParser;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
+
+import com.sun.jersey.api.uri.UriTemplate;
+import com.sun.jersey.api.uri.UriTemplateParser;
 
 @PluginImplementation
 public class RestRouterImpl implements RestRouter {
@@ -28,9 +28,10 @@ public class RestRouterImpl implements RestRouter {
 		
 		JSONObject result = new JSONObject();
 
+		List<Map<String, Object>> resourceMap = restResourceModuleRegistry.getResourceMap(request.getHash());
+		
 		// currently does not support sub resources only /api/param eq (/pet/1)
 		// use this to fix : https://github.com/wordnik/swagger-spec/blob/master/versions/1.2.md#definitionResource
-
 		RestResource apiResource = restResourceModuleRegistry.getResource("/" + request.getPathPart(0));
 		JSONArray resources = (JSONArray) apiResource.getApi().get("apis");
 		Object apiObject = apiResource.getResourceObject();
@@ -38,8 +39,8 @@ public class RestRouterImpl implements RestRouter {
 		for (Object resource : resources) {
 			JSONObject jsonObj = (JSONObject) resource;
 			
-			
-			processRequest(request, jsonObj);
+			restResourceModuleRegistry.processRequest(jsonObj);
+			//processRequest(request, jsonObj);
 		}
 		
 		
@@ -90,8 +91,7 @@ public class RestRouterImpl implements RestRouter {
 				
 				
 				JSONObject op = (JSONObject)operation;
-				//System.out.println(op);
-				//
+
 				
 				String nickname = (String)op.get("nickname");
 				System.out.println("nickname : " + nickname);

@@ -72,6 +72,8 @@ public class TestRestRouter {
 		TestRestRouter routerTest = new TestRestRouter();
 		routerTest.setUp();
 		routerTest.restRouterGetPetById();
+		
+		System.exit(0); 
 	}
 
 }
