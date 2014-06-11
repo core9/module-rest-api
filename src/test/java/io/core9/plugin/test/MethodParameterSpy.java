@@ -31,10 +31,13 @@ package io.core9.plugin.test;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */ 
 
-import java.lang.reflect.*;
-import java.util.function.*;
 import static java.lang.System.out;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+
+@SuppressWarnings("rawtypes")
 public class MethodParameterSpy {
     
     private static final String  fmt = "%24s: %s%n";
@@ -42,7 +45,8 @@ public class MethodParameterSpy {
     // for the morbidly curious
     <E extends RuntimeException> void genericThrow() throws E {}
     
-    public static void printClassConstructors(Class c) {
+
+	public static void printClassConstructors(Class c) {
         Constructor[] allConstructors = c.getConstructors();
         out.format(fmt, "Number of constructors", allConstructors.length);
         for (Constructor currentConstructor : allConstructors) {

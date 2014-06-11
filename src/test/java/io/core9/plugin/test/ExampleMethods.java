@@ -48,7 +48,8 @@ public class ExampleMethods<T> {
         return listParam.isEmpty();
     }
     
-    public <T> void genericMethod(T[] a, Collection<T> c) {
+    @SuppressWarnings("hiding")
+	public <T> void genericMethod(T[] a, Collection<T> c) {
         System.out.println("Length of array: " + a.length);
         System.out.println("Size of collection: " + c.size()); 
     }
