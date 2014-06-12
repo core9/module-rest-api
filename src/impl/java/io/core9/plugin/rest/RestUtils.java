@@ -3,11 +3,8 @@ package io.core9.plugin.rest;
 import io.core9.plugin.server.request.Request;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,16 +24,19 @@ import com.wordnik.swagger.model.ApiListing;
 
 public class RestUtils {
 
-	public static Map<String, RestResource> addRestResource(SwaggerConfig config, Object resourceObject) {
+	public static Map<String, RestResource> addRestResource(
+			SwaggerConfig config, Object resourceObject) {
 
 		Map<String, RestResource> resourceMap = new HashMap<>();
 		RestResource restResource = new RestResourceImpl();
 		restResource.setResourceObject(config, resourceObject);
-		resourceMap.put(RestUtils.getResourcePath(resourceObject.getClass()), restResource);
+		resourceMap.put(RestUtils.getResourcePath(resourceObject.getClass()),
+				restResource);
 		return resourceMap;
 	}
 
-	public static JSONObject getApiFromResource(String apiVersion, String basePath, String apiPath, Class<?> clazz) {
+	public static JSONObject getApiFromResource(String apiVersion,
+			String basePath, String apiPath, Class<?> clazz) {
 
 		DefaultJaxrsApiReader reader = new DefaultJaxrsApiReader();
 		SwaggerConfig config = new SwaggerConfig();
@@ -53,7 +53,8 @@ public class RestUtils {
 		return clazz.getAnnotation(javax.ws.rs.Path.class).value();
 	}
 
-	public static RestRequest convertServerRequestToRestRequest(String basePath, Request request) {
+	public static RestRequest convertServerRequestToRestRequest(
+			String basePath, Request request) {
 
 		RestRequest req = new RestRequestImpl();
 		req.setMethod(request.getMethod());
@@ -81,10 +82,12 @@ public class RestUtils {
 		return false;
 	}
 
-	public static JSONObject getResultFromRequest(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
+	public static Object getResultFromRequest(Object resourceObject,
+			RestRequest request, Map<String, Object> resourceMap,
+			Map<String, String> urlParam) {
 
-		validateAndInitiateMethodBasedOnParameters(resourceObject, request, resourceMap, urlParam);
-		
+		validateAndInitiateMethodBasedOnParameters(resourceObject, request,
+				resourceMap, urlParam);
 
 		JSONArray methodParameters = (JSONArray) resourceMap.get("parameters");
 		@SuppressWarnings("rawtypes")
@@ -92,35 +95,55 @@ public class RestUtils {
 		Object[] args = new Object[methodParameters.size()];
 
 		int i = 0;
-		for(Object param : methodParameters){
+		for (Object param : methodParameters) {
+
+			JSONObject objParam = (JSONObject) param;
+
+			String p = (String) objParam.get("type");
+
+
+			if("path".equals((String) objParam.get("paramType"))){
+				
+				String paramName = (String) objParam.get("name");
+				args[i] = urlParam.get(paramName);
+				
+				switch (p) {
+				case "string":
+					paramTypes[i] = String.class;
+					i++;
+					break;
+
+				}
+			}
 			
-			JSONObject objParam = (JSONObject)param;
+			if("query".equals((String) objParam.get("paramType"))){
+				
+				String paramName = (String) objParam.get("name");
+				args[i] = request.getParams().get(paramName);
+				
+				
+				switch (p) {
+				case "string":
+					paramTypes[i] = String.class;
+					i++;
+					break;
+
+				}
+			}
 			
-			String p = (String)objParam.get("type");
-			String paramName = (String)objParam.get("name");
-			args[i] = urlParam.get(paramName);
-			
-			switch(p) {
-		    case "string":
-		    	paramTypes[i]=String.class;
-		    	i++;
-		        break;
-		        
-		        
-		}
-			
-			
+
+
 			System.out.println(objParam);
-			
+
 		}
-		
-		
+
 		Response response = null;
 		Object methodObj = null;
 		try {
 			// get signature from method with reflection and use that to
 			// initiate the method
-			methodObj = resourceObject.getClass().getMethod((String) resourceMap.get("nickname"), paramTypes);
+			methodObj = resourceObject.getClass().getMethod(
+					(String) resourceMap.get("nickname"), paramTypes);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -128,11 +151,12 @@ public class RestUtils {
 		}
 
 		try {
-						response = (Response) ((Method) methodObj).invoke(resourceObject, args); 
+			response = (Response) ((Method) methodObj).invoke(resourceObject,
+					args);
 			// FIXME
-																					// serious
-																					// problem
-																					// !!!!!!!!!
+			// serious
+			// problem
+			// !!!!!!!!!
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -154,17 +178,22 @@ public class RestUtils {
 			e.printStackTrace();
 		}
 
-		JSONObject result = (JSONObject) JSONValue.parse(jsonString);
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		Object result = jsonString;
 
 		return result;
 	}
 
-	private static void validateAndInitiateMethodBasedOnParameters(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
+	private static void validateAndInitiateMethodBasedOnParameters(
+			Object resourceObject, RestRequest request,
+			Map<String, Object> resourceMap, Map<String, String> urlParam) {
 
 		JSONArray parameters = (JSONArray) resourceMap.get("parameters");
 		System.out.println(parameters);
 	}
-
-	
 
 }

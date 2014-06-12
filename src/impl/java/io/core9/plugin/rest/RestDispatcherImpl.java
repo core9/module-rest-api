@@ -5,7 +5,6 @@ import io.core9.plugin.server.HostManager;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.server.vertx.VertxServer;
-import net.minidev.json.JSONObject;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
 
@@ -31,10 +30,11 @@ public class RestDispatcherImpl implements RestDispatcher {
 			@Override
 			public void handle(Request request) {
 
-				JSONObject result = restRouter.getResponse(RestUtils.convertServerRequestToRestRequest("/api", request));
+				Object result = restRouter.getResponse(RestUtils.convertServerRequestToRestRequest("/api", request));
 
 				System.out.println("Result is : " + result);
-				request.getResponse().sendJsonMap(result);
+				//request.getResponse().sendJsonMap(result);
+				request.getResponse().end((String) result.toString());
 			}
 		});
 	}
