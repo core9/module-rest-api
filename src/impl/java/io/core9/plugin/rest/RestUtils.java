@@ -16,11 +16,15 @@ import net.minidev.json.JSONValue;
 import scala.Option;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wordnik.swagger.config.SwaggerConfig;
 import com.wordnik.swagger.core.util.JsonSerializer;
 import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
 import com.wordnik.swagger.model.ApiListing;
+import com.wordnik.swagger.sample.model.Pet;
 
 public class RestUtils {
 
@@ -57,6 +61,7 @@ public class RestUtils {
 			String basePath, Request request) {
 
 		RestRequest req = new RestRequestImpl();
+		req.setBody(request.getBody());
 		req.setMethod(request.getMethod());
 		req.setBasePath(basePath);
 		req.setPath(request.getPath());
@@ -86,6 +91,11 @@ public class RestUtils {
 			RestRequest request, Map<String, Object> resourceMap,
 			Map<String, String> urlParam) {
 
+		ObjectMapper MAPPER = new ObjectMapper();
+
+		MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+				false);
+
 		validateAndInitiateMethodBasedOnParameters(resourceObject, request,
 				resourceMap, urlParam);
 
@@ -101,12 +111,53 @@ public class RestUtils {
 
 			String p = (String) objParam.get("type");
 
+			if ("body".equals((String) objParam.get("paramType"))) {
 
-			if("path".equals((String) objParam.get("paramType"))){
-				
+				String clazz = (String) objParam.get("type");
+				String body = request.getBody();
+
+				Object classObject = null;
+				try {
+					classObject = MAPPER.readValue(
+							body,
+							Class.forName("com.wordnik.swagger.sample.model."
+									+ clazz));
+
+					System.out.println("tmp");
+				} catch (JsonParseException e) {
+
+					e.printStackTrace();
+				} catch (JsonMappingException e) {
+
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+
+					e.printStackTrace();
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+
+				String paramName = (String) objParam.get("name");
+
+				args[i] = classObject;
+
+				try {
+					paramTypes[i] = Class
+							.forName("com.wordnik.swagger.sample.model."
+									+ clazz);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				i++;
+			}
+
+			if ("path".equals((String) objParam.get("paramType"))) {
+
 				String paramName = (String) objParam.get("name");
 				args[i] = urlParam.get(paramName);
-				
+
 				switch (p) {
 				case "string":
 					paramTypes[i] = String.class;
@@ -115,13 +166,12 @@ public class RestUtils {
 
 				}
 			}
-			
-			if("query".equals((String) objParam.get("paramType"))){
-				
+
+			if ("query".equals((String) objParam.get("paramType"))) {
+
 				String paramName = (String) objParam.get("name");
 				args[i] = request.getParams().get(paramName);
-				
-				
+
 				switch (p) {
 				case "string":
 					paramTypes[i] = String.class;
@@ -130,8 +180,6 @@ public class RestUtils {
 
 				}
 			}
-			
-
 
 			System.out.println(objParam);
 
@@ -179,7 +227,7 @@ public class RestUtils {
 		}
 
 		try {
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
