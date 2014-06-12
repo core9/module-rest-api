@@ -1,6 +1,8 @@
 package com.wordnik.swagger.sample.core9.connector;
 
 import io.core9.plugin.rest.RestResource;
+import io.core9.plugin.rest.RestResourceConfig;
+import io.core9.plugin.rest.RestResourceConfigImpl;
 import io.core9.plugin.rest.RestResourceProvider;
 import io.core9.plugin.rest.RestUtils;
 
@@ -23,19 +25,22 @@ public class PetstoreRestResourceProviderImpl implements RestResourceProvider {
 	@Override
 	public Map<String, RestResource> getResources() {
 
-		
+
+		RestResourceConfig restResourceConfig =  new RestResourceConfigImpl();
 		
 	    SwaggerConfig config = new SwaggerConfig();
 	    config.setApiVersion("1.0.1");
 	    config.setBasePath("http://localhost:8080/api");
-		
+
+		restResourceConfig.setSwaggerConfig(config);
+		restResourceConfig.setModelPackage("com.wordnik.swagger.sample.model");
 
 		
-		resourceMap.putAll(RestUtils.addRestResource(config, new PetResource()));
+		resourceMap.putAll(RestUtils.addRestResource(restResourceConfig, new PetResource()));
 		
-		resourceMap.putAll(RestUtils.addRestResource(config, new PetStoreResource()));
+		resourceMap.putAll(RestUtils.addRestResource(restResourceConfig, new PetStoreResource()));
 		
-		resourceMap.putAll(RestUtils.addRestResource(config, new UserResource()));
+		resourceMap.putAll(RestUtils.addRestResource(restResourceConfig, new UserResource()));
 		
 		
 		return resourceMap;

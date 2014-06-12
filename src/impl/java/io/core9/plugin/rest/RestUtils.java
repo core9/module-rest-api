@@ -24,23 +24,24 @@ import com.wordnik.swagger.config.SwaggerConfig;
 import com.wordnik.swagger.core.util.JsonSerializer;
 import com.wordnik.swagger.jaxrs.reader.DefaultJaxrsApiReader;
 import com.wordnik.swagger.model.ApiListing;
-import com.wordnik.swagger.sample.model.Pet;
 
 public class RestUtils {
 
-	public static Map<String, RestResource> addRestResource(
-			SwaggerConfig config, Object resourceObject) {
+	public static Map<String, RestResource> addRestResource(RestResourceConfig restResourceConfig, Object resourceObject) {
 
 		Map<String, RestResource> resourceMap = new HashMap<>();
+		
 		RestResource restResource = new RestResourceImpl();
-		restResource.setResourceObject(config, resourceObject);
-		resourceMap.put(RestUtils.getResourcePath(resourceObject.getClass()),
-				restResource);
+		
+		restResource.setResourceObject(restResourceConfig.getSwaggerConfig(), resourceObject);
+		restResource.setModelPackage(restResourceConfig.getModelPackage());
+		
+		resourceMap.put(RestUtils.getResourcePath(resourceObject.getClass()), restResource);
+		
 		return resourceMap;
 	}
 
-	public static JSONObject getApiFromResource(String apiVersion,
-			String basePath, String apiPath, Class<?> clazz) {
+	public static JSONObject getApiFromResource(String apiVersion, String basePath, String apiPath, Class<?> clazz) {
 
 		DefaultJaxrsApiReader reader = new DefaultJaxrsApiReader();
 		SwaggerConfig config = new SwaggerConfig();
@@ -57,8 +58,7 @@ public class RestUtils {
 		return clazz.getAnnotation(javax.ws.rs.Path.class).value();
 	}
 
-	public static RestRequest convertServerRequestToRestRequest(
-			String basePath, Request request) {
+	public static RestRequest convertServerRequestToRestRequest(String basePath, Request request) {
 
 		RestRequest req = new RestRequestImpl();
 		req.setBody(request.getBody());
@@ -87,17 +87,13 @@ public class RestUtils {
 		return false;
 	}
 
-	public static Object getResultFromRequest(Object resourceObject,
-			RestRequest request, Map<String, Object> resourceMap,
-			Map<String, String> urlParam) {
+	public static Object getResultFromRequest(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
 
 		ObjectMapper MAPPER = new ObjectMapper();
 
-		MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-				false);
+		MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		validateAndInitiateMethodBasedOnParameters(resourceObject, request,
-				resourceMap, urlParam);
+		validateAndInitiateMethodBasedOnParameters(resourceObject, request, resourceMap, urlParam);
 
 		JSONArray methodParameters = (JSONArray) resourceMap.get("parameters");
 		@SuppressWarnings("rawtypes")
@@ -113,15 +109,12 @@ public class RestUtils {
 
 			if ("body".equals((String) objParam.get("paramType"))) {
 
-				String clazz = (String) objParam.get("type");
+				String clazz = (String) resourceMap.get("modelPackage") + "." + (String) objParam.get("type");
 				String body = request.getBody();
 
 				Object classObject = null;
 				try {
-					classObject = MAPPER.readValue(
-							body,
-							Class.forName("com.wordnik.swagger.sample.model."
-									+ clazz));
+					classObject = MAPPER.readValue(body, Class.forName(clazz));
 
 					System.out.println("tmp");
 				} catch (JsonParseException e) {
@@ -138,14 +131,12 @@ public class RestUtils {
 					e.printStackTrace();
 				}
 
-				String paramName = (String) objParam.get("name");
+				//String paramName = (String) objParam.get("name");
 
 				args[i] = classObject;
 
 				try {
-					paramTypes[i] = Class
-							.forName("com.wordnik.swagger.sample.model."
-									+ clazz);
+					paramTypes[i] = Class.forName(clazz);
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -190,8 +181,7 @@ public class RestUtils {
 		try {
 			// get signature from method with reflection and use that to
 			// initiate the method
-			methodObj = resourceObject.getClass().getMethod(
-					(String) resourceMap.get("nickname"), paramTypes);
+			methodObj = resourceObject.getClass().getMethod((String) resourceMap.get("nickname"), paramTypes);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -199,8 +189,7 @@ public class RestUtils {
 		}
 
 		try {
-			response = (Response) ((Method) methodObj).invoke(resourceObject,
-					args);
+			response = (Response) ((Method) methodObj).invoke(resourceObject, args);
 			// FIXME
 			// serious
 			// problem
@@ -236,9 +225,7 @@ public class RestUtils {
 		return result;
 	}
 
-	private static void validateAndInitiateMethodBasedOnParameters(
-			Object resourceObject, RestRequest request,
-			Map<String, Object> resourceMap, Map<String, String> urlParam) {
+	private static void validateAndInitiateMethodBasedOnParameters(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
 
 		JSONArray parameters = (JSONArray) resourceMap.get("parameters");
 		System.out.println(parameters);

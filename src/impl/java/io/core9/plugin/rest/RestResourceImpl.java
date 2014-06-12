@@ -9,6 +9,8 @@ public class RestResourceImpl implements RestResource {
 	private JSONObject api;
 
 	private Object resourceObject;
+	
+	private String modelPackage;
 
 	@Override
 	public Object getResourceObject() {
@@ -30,6 +32,16 @@ public class RestResourceImpl implements RestResource {
 
 	private void setApi(JSONObject api) {
 		this.api = api;
+	}
+
+	@Override
+	public String getModelPackage() {
+		return modelPackage;
+	}
+
+	@Override
+	public void setModelPackage(String modelPackage) {
+		this.modelPackage = modelPackage;
 	}
 
 }

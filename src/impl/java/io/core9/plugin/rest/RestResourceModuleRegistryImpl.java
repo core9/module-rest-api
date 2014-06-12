@@ -36,12 +36,12 @@ public class RestResourceModuleRegistryImpl implements
 		for (Object resource : resources) {
 			JSONObject jsonObj = (JSONObject) resource;
 
-			processRequest(jsonObj);
+			processRequest(jsonObj, restResource);
 		}
 	}
 
 	@Override
-	public void processRequest(JSONObject jsonObj) {
+	public void processRequest(JSONObject jsonObj, RestResource restResource) {
 
 		JSONArray operations = (JSONArray) jsonObj.get("operations");
 
@@ -53,6 +53,8 @@ public class RestResourceModuleRegistryImpl implements
 			String path = (String) jsonObj.get("path");
 			System.out.println("path : " + path);
 			resourceMap.put("path", path);
+			
+			resourceMap.put("modelPackage", restResource.getModelPackage());
 
 			JSONObject op = (JSONObject) operation;
 

@@ -15,6 +15,10 @@ public interface RestResource {
 
 	JSONObject getApi();
 
+	String getModelPackage();
+
+	void setModelPackage(String modelPackage);
+
 
 
 }

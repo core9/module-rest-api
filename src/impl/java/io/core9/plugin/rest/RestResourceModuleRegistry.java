@@ -14,9 +14,11 @@ public interface RestResourceModuleRegistry extends Core9Plugin{
 
 	RestResource getResource(String apiPath);
 
-	void processRequest(JSONObject jsonObj);
+
 
 	List<Map<String, Object>> getResourceMap(String hash);
+
+	void processRequest(JSONObject jsonObj, RestResource restResource);
 
 
 
