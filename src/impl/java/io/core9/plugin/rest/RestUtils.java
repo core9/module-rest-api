@@ -3,8 +3,6 @@ package io.core9.plugin.rest;
 import io.core9.plugin.server.request.Request;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -84,7 +82,6 @@ public class RestUtils {
 
 		validateAndInitiateMethodBasedOnParameters(resourceObject, request, resourceMap, urlParam);
 		
-		Annotation[] annotations = getMethodAnnotatedParameters(resourceObject, (String) resourceMap.get("nickname"));
 
 		Response response = null;
 		Object methodObj = null;
@@ -135,49 +132,6 @@ public class RestUtils {
 		System.out.println(parameters);
 	}
 
-	public static Class<?>[] getMethodSignature(Object receiver, String methodName){
-
-		Method method = null;
-		try {
-			method = receiver.getClass().getMethod(methodName);
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		Class<?>[] parameterTypes = method.getParameterTypes();
-		
-		return parameterTypes;
-	}
 	
-	public static Annotation[] getMethodAnnotatedParameters(Object receiver, String methodName){
-
-	
-
-		Method[] allMethods = receiver.getClass().getDeclaredMethods();
-		
-		for(Method method : allMethods){
-			if(method.getName().equals(methodName)){
-				System.out.println(method.getName() + " found.");
-				
-				AnnotatedType[] annotations = method.getAnnotatedParameterTypes();
-
-				for(AnnotatedType annotation : annotations){
-					System.out.println(annotation.getAnnotations());
-				}
-				
-			}
-		}
-
-		
-		
-		/*
-		return annotations;*/
-		return null;
-	}
 
 }
