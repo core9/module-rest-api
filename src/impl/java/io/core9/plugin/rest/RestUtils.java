@@ -30,14 +30,14 @@ public class RestUtils {
 	public static Map<String, RestResource> addRestResource(RestResourceConfig restResourceConfig, Object resourceObject) {
 
 		Map<String, RestResource> resourceMap = new HashMap<>();
-		
+
 		RestResource restResource = new RestResourceImpl();
-		
+
 		restResource.setResourceObject(restResourceConfig.getSwaggerConfig(), resourceObject);
 		restResource.setModelPackage(restResourceConfig.getModelPackage());
-		
+
 		resourceMap.put(RestUtils.getResourcePath(resourceObject.getClass()), restResource);
-		
+
 		return resourceMap;
 	}
 
@@ -131,14 +131,11 @@ public class RestUtils {
 					e.printStackTrace();
 				}
 
-				//String paramName = (String) objParam.get("name");
-
 				args[i] = classObject;
 
 				try {
 					paramTypes[i] = Class.forName(clazz);
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				i++;
@@ -179,8 +176,6 @@ public class RestUtils {
 		Response response = null;
 		Object methodObj = null;
 		try {
-			// get signature from method with reflection and use that to
-			// initiate the method
 			methodObj = resourceObject.getClass().getMethod((String) resourceMap.get("nickname"), paramTypes);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
@@ -190,10 +185,6 @@ public class RestUtils {
 
 		try {
 			response = (Response) ((Method) methodObj).invoke(resourceObject, args);
-			// FIXME
-			// serious
-			// problem
-			// !!!!!!!!!
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -215,11 +206,6 @@ public class RestUtils {
 			e.printStackTrace();
 		}
 
-		try {
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 		Object result = jsonString;
 
 		return result;
