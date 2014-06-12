@@ -3,8 +3,11 @@ package io.core9.plugin.rest;
 import io.core9.plugin.server.request.Request;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,12 +86,41 @@ public class RestUtils {
 		validateAndInitiateMethodBasedOnParameters(resourceObject, request, resourceMap, urlParam);
 		
 
+		JSONArray methodParameters = (JSONArray) resourceMap.get("parameters");
+		@SuppressWarnings("rawtypes")
+		Class[] paramTypes = new Class[methodParameters.size()];
+		Object[] args = new Object[methodParameters.size()];
+
+		int i = 0;
+		for(Object param : methodParameters){
+			
+			JSONObject objParam = (JSONObject)param;
+			
+			String p = (String)objParam.get("type");
+			String paramName = (String)objParam.get("name");
+			args[i] = urlParam.get(paramName);
+			
+			switch(p) {
+		    case "string":
+		    	paramTypes[i]=String.class;
+		    	i++;
+		        break;
+		        
+		        
+		}
+			
+			
+			System.out.println(objParam);
+			
+		}
+		
+		
 		Response response = null;
 		Object methodObj = null;
 		try {
 			// get signature from method with reflection and use that to
 			// initiate the method
-			methodObj = resourceObject.getClass().getMethod((String) resourceMap.get("nickname"), String.class);
+			methodObj = resourceObject.getClass().getMethod((String) resourceMap.get("nickname"), paramTypes);
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -96,7 +128,8 @@ public class RestUtils {
 		}
 
 		try {
-			response = (Response) ((Method) methodObj).invoke(resourceObject, "1"); // FIXME
+						response = (Response) ((Method) methodObj).invoke(resourceObject, args); 
+			// FIXME
 																					// serious
 																					// problem
 																					// !!!!!!!!!
