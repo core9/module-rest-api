@@ -13,6 +13,7 @@ import io.core9.plugin.server.request.Method;
 
 import java.util.HashMap;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -64,7 +65,11 @@ public class TestRestRouter {
 		request.setMethod(Method.GET);
 		request.setPath("/api/pet/findByTags?tags=tag1");
 
-		Object response = restRouter.getResponse(request);
+		JSONArray response = (JSONArray) JSONValue.parse(restRouter.getResponse(request).toString());
+		
+	
+		
+		assertTrue("Cat 1".equals(((JSONObject)response.get(0)).get("name")));
 
 		System.out.println(response);
 	}
