@@ -203,17 +203,16 @@ public class RestRequestImpl implements RestRequest {
 
 	@Override
 	public void setPath(String path) {
-		// /api/petfindbyTag?tags=tag1
-		// parse query string and add params to params
 		String[] tmpPathParts2 = path.split("\\?");
-		String thePath = tmpPathParts2[0];
-		String queryString = tmpPathParts2[1];
-		Map<String, Object> parmas = getParams();
-		String[] paramsParts = queryString.split("&");
-		for(String param : paramsParts){
-			String[] theParam = param.split("=");
-			getParams().put(theParam[0], theParam[1]);
+		if(tmpPathParts2.length > 1){
+			String queryString = tmpPathParts2[1];
+			String[] paramsParts = queryString.split("&");
+			for(String param : paramsParts){
+				String[] theParam = param.split("=");
+				getParams().put(theParam[0], theParam[1]);
+			}
 		}
+
 
 		String[] basePathParts = basePath.split("/");
 		String[] tmpPathParts = tmpPathParts2[0].split("/");

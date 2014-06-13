@@ -73,7 +73,7 @@ public class TestRestRouter {
 
 		TestRestRouter routerTest = new TestRestRouter();
 		routerTest.setUp();
-		//routerTest.restRouterGetPetById();
+		routerTest.restRouterGetPetById();
 		routerTest.restRouterGetfindByTags();
 		
 		System.exit(0); 
