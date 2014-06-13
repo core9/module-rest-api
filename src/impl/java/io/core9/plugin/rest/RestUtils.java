@@ -93,7 +93,7 @@ public class RestUtils {
 
 		MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-		validateAndInitiateMethodBasedOnParameters(resourceObject, request, resourceMap, urlParam);
+		//validateAndInitiateMethodBasedOnParameters(resourceObject, request, resourceMap, urlParam);
 
 		JSONArray methodParameters = (JSONArray) resourceMap.get("parameters");
 		@SuppressWarnings("rawtypes")

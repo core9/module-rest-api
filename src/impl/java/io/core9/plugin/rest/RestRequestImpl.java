@@ -34,7 +34,7 @@ public class RestRequestImpl implements RestRequest {
 	private String path;
 	private Method type;
 	private Map<String, Object> context;
-	private Map<String, Object> params;
+	private Map<String, Object> params = new HashMap<String, Object>();
 	private String body;
 	private List<Cookie> cookies;
 	private Map<String, Object> bodyAsMap;
@@ -203,10 +203,24 @@ public class RestRequestImpl implements RestRequest {
 
 	@Override
 	public void setPath(String path) {
-		String[] tmpPathParts = path.split("/");
+		// /api/petfindbyTag?tags=tag1
+		// parse query string and add params to params
+		String[] tmpPathParts2 = path.split("\\?");
+		String thePath = tmpPathParts2[0];
+		String queryString = tmpPathParts2[1];
+		Map<String, Object> parmas = getParams();
+		String[] paramsParts = queryString.split("&");
+		for(String param : paramsParts){
+			String[] theParam = param.split("=");
+			getParams().put(theParam[0], theParam[1]);
+		}
+
 		String[] basePathParts = basePath.split("/");
+		String[] tmpPathParts = tmpPathParts2[0].split("/");
+
 		pathParts = Arrays.copyOfRange(tmpPathParts, basePathParts.length, tmpPathParts.length);
-		this.path = path.substring(basePath.length());
+		this.path = tmpPathParts2[0].substring(basePath.length());
+		System.out.println("");
 	}
 
 	@Override

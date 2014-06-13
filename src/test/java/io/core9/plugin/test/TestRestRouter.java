@@ -13,6 +13,9 @@ import io.core9.plugin.server.request.Method;
 
 import java.util.HashMap;
 
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
 public class TestRestRouter {
 
 	private static PluginRegistry registry;
@@ -49,13 +52,9 @@ public class TestRestRouter {
 		request.setPath("/api/pet/1");
 
 		Object response = restRouter.getResponse(request);
-		System.out.println(response);
-
-/*		assertTrue(response
-				.toString()
-				.replace("\"", "'")
-				.equals("{'photoUrls':['url1','url2'],'name':'Cat 1','id':1,'category':{'name':'Cats','id':2},'tags':[{'name':'tag1','id':1},{'name':'tag2','id':2}],'status':'available'}"));
-	*/}
+		JSONObject jsonResponse = (JSONObject) JSONValue.parse(response.toString());
+		assertTrue("Cat 1".equals(jsonResponse.get("name")));
+		System.out.println("");}
 
 	public void restRouterGetfindByTags() {
 
@@ -63,7 +62,7 @@ public class TestRestRouter {
 
 		request.setBasePath("/api");
 		request.setMethod(Method.GET);
-		request.setPath("/api/pet/findByTags?tags=tag1%2Ctag2%2Cpet");
+		request.setPath("/api/pet/findByTags?tags=tag1");
 
 		Object response = restRouter.getResponse(request);
 
@@ -74,7 +73,8 @@ public class TestRestRouter {
 
 		TestRestRouter routerTest = new TestRestRouter();
 		routerTest.setUp();
-		routerTest.restRouterGetPetById();
+		//routerTest.restRouterGetPetById();
+		routerTest.restRouterGetfindByTags();
 		
 		System.exit(0); 
 	}
