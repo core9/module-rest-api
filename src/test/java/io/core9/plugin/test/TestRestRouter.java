@@ -11,6 +11,12 @@ import io.core9.plugin.rest.RestRouter;
 import io.core9.plugin.rest.RestRouterImpl;
 import io.core9.plugin.server.request.Method;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import net.minidev.json.JSONArray;
@@ -72,7 +78,7 @@ public class TestRestRouter {
 
 		System.out.println(response);
 	}
-	
+
 	public void restRouterGetOwnerOfPet() {
 
 		RestRequest request = new RestRequestImpl();
@@ -88,6 +94,44 @@ public class TestRestRouter {
 		System.out.println(response);
 	}
 
+	public void restRouterPutPet() {
+
+		RestRequest request = new RestRequestImpl();
+
+		request.setBasePath("/api");
+		request.setMethod(Method.PUT);
+		request.setPath("/api/pet");
+
+		JSONObject body = (JSONObject) JSONValue.parse(readFile("TestRestRouter.restRouterPostPet.json"));
+
+		request.setBody(body.toString());
+
+		String response = (String) restRouter.getResponse(request);
+
+		assertTrue("\"SUCCESS\"".equals(response));
+
+		System.out.println(response);
+	}
+	
+	public void restRouterPostPet() {
+
+		RestRequest request = new RestRequestImpl();
+
+		request.setBasePath("/api");
+		request.setMethod(Method.POST);
+		request.setPath("/api/pet");
+
+		JSONObject body = (JSONObject) JSONValue.parse(readFile("TestRestRouter.restRouterPostPet.json"));
+
+		request.setBody(body.toString());
+
+		String response = (String) restRouter.getResponse(request);
+
+		assertTrue("\"SUCCESS\"".equals(response));
+
+		System.out.println(response);
+	}
+
 	public static void main(String[] args) {
 
 		TestRestRouter routerTest = new TestRestRouter();
@@ -97,11 +141,26 @@ public class TestRestRouter {
 		routerTest.restRouterGetPetById();
 		routerTest.restRouterGetfindByTags();
 		routerTest.restRouterGetOwnerOfPet();
+		routerTest.restRouterPostPet();
+		routerTest.restRouterPutPet();
+
 		long elapsed = System.currentTimeMillis() - start;
 		System.out.println("elapsed time = " + elapsed + "ms");
 		System.out.println((elapsed * 1000.0) / 1000000 + " microseconds per execution");
 
 		System.exit(0);
+	}
+
+	static String readFile(String file) {
+		URL main = TestRestRouter.class.getResource(file);
+		File path = new File(main.getPath());
+		byte[] encoded = null;
+		try {
+			encoded = Files.readAllBytes(Paths.get(path.getAbsolutePath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new String(encoded, StandardCharsets.UTF_8);
 	}
 
 }

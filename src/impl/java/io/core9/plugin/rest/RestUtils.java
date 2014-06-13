@@ -211,10 +211,6 @@ public class RestUtils {
 		return result;
 	}
 
-	private static void validateAndInitiateMethodBasedOnParameters(Object resourceObject, RestRequest request, Map<String, Object> resourceMap, Map<String, String> urlParam) {
 
-		JSONArray parameters = (JSONArray) resourceMap.get("parameters");
-		System.out.println(parameters);
-	}
 
 }
