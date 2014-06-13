@@ -55,7 +55,8 @@ public class TestRestRouter {
 		Object response = restRouter.getResponse(request);
 		JSONObject jsonResponse = (JSONObject) JSONValue.parse(response.toString());
 		assertTrue("Cat 1".equals(jsonResponse.get("name")));
-		System.out.println("");}
+		System.out.println("");
+	}
 
 	public void restRouterGetfindByTags() {
 
@@ -66,10 +67,23 @@ public class TestRestRouter {
 		request.setPath("/api/pet/findByTags?tags=tag1");
 
 		JSONArray response = (JSONArray) JSONValue.parse(restRouter.getResponse(request).toString());
-		
+
+		assertTrue("Cat 1".equals(((JSONObject) response.get(0)).get("name")));
+
+		System.out.println(response);
+	}
 	
-		
-		assertTrue("Cat 1".equals(((JSONObject)response.get(0)).get("name")));
+	public void restRouterGetOwnerOfPet() {
+
+		RestRequest request = new RestRequestImpl();
+
+		request.setBasePath("/api");
+		request.setMethod(Method.GET);
+		request.setPath("/api/pet/1/owner");
+
+		JSONObject response = (JSONObject) JSONValue.parse(restRouter.getResponse(request).toString());
+
+		assertTrue("Tony".equals(response.get("name")));
 
 		System.out.println(response);
 	}
@@ -78,10 +92,16 @@ public class TestRestRouter {
 
 		TestRestRouter routerTest = new TestRestRouter();
 		routerTest.setUp();
+		long start = System.currentTimeMillis();
+		routerTest.restRouterGetApiForPet();
 		routerTest.restRouterGetPetById();
 		routerTest.restRouterGetfindByTags();
-		
-		System.exit(0); 
+		routerTest.restRouterGetOwnerOfPet();
+		long elapsed = System.currentTimeMillis() - start;
+		System.out.println("elapsed time = " + elapsed + "ms");
+		System.out.println((elapsed * 1000.0) / 1000000 + " microseconds per execution");
+
+		System.exit(0);
 	}
 
 }

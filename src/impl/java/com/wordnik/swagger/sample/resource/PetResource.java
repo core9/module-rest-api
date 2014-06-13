@@ -32,6 +32,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 import com.wordnik.swagger.sample.data.PetData;
 import com.wordnik.swagger.sample.exception.NotFoundException;
+import com.wordnik.swagger.sample.model.Owner;
 import com.wordnik.swagger.sample.model.Pet;
 
 @Path("/pet")
@@ -114,7 +115,11 @@ public class PetResource {
 	    response = OwnerResource.class)
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID supplied"),
 			@ApiResponse(code = 404, message = "Pet not found") })
-	  public OwnerResource getOwners(@PathParam("petId") String petId) {
-	    return new OwnerResource(petId);
+	  public Response getOwner(@PathParam("petId") String petId) {
+	    
+		Owner o = new Owner();
+	    o.setName("Tony");
+	    o.setId(1);
+	    return Response.ok(o).build();
 	  }
 }
