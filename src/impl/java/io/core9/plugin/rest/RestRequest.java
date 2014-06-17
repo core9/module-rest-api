@@ -130,5 +130,19 @@ public interface RestRequest {
 
 	String getApi();
 
+	void setRxJavaMethod(String rxJavaMethod);
+
+	void setRxJavaVarName(String rxJavaVarName);
+	
+	String getRxJavaMethod();
+
+	String getRxJavaVarName();
+
+
+
+	void fromJsonString(String jsonString);
+
+	void fromJson(JSONObject jsonStr);
+
 
 }
