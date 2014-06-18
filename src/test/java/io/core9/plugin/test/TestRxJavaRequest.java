@@ -11,6 +11,7 @@ import io.core9.plugin.rest.RestRouterImpl;
 import io.core9.plugin.server.VirtualHost;
 import io.core9.plugin.server.request.Method;
 
+import java.util.List;
 import java.util.Map;
 
 public class TestRxJavaRequest {
@@ -32,9 +33,8 @@ public class TestRxJavaRequest {
 	public void sendRequest(){
 
 		RxJavaRequestCollector collector = new RxJavaRequestCollectorImpl();
-		RestRequest request = new RestRequestImpl();
 
-		
+		RestRequest request = new RestRequestImpl();
 		request.setVirtualHost(new VirtualHost("localhost"));
 		request.setBasePath("/api");
 		request.setMethod(Method.GET);
@@ -42,14 +42,26 @@ public class TestRxJavaRequest {
 		request.setRxJavaMethod("parallel");
 		request.setRxJavaVarName("petApi");
 
-		
 
+		RestRequest request1 = new RestRequestImpl();
+		request1.setVirtualHost(new VirtualHost("localhost"));
+		request1.setBasePath("/api");
+		request1.setMethod(Method.GET);
+		request1.setPath("/api/pet-docs");
+		request1.setRxJavaMethod("parallel");
+		request1.setRxJavaVarName("petApi2");
+		
+		
+		
+		
 		collector.setRequest(request);
-		collector.setRequest(request);
-		Map<String, Map<String, RestRequest>> collection = collector.getRequests();
+		collector.setRequest(request1);
+		
+		
+		Map<String, List<Map<String, RestRequest>>> collection = collector.getRequests();
 		
 		@SuppressWarnings("unused")
-		Map<String, Object> result = EventBusUtils.getInstance().procesRequest(collection);
+		Map<String, Map<String, Object>> result = EventBusUtils.getInstance().procesRequest(collection);
 		
 		
 		 
