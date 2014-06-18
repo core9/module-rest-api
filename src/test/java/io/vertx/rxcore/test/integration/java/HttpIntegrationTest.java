@@ -82,7 +82,7 @@ public class HttpIntegrationTest extends TestVerticle {
     };
   } 
   
-  @Test
+/*  @Test
   public void testGetNow() {
 
     createHttpPingServer();
@@ -94,7 +94,7 @@ public class HttpIntegrationTest extends TestVerticle {
       .mapMany(downloadBody());
     
     assertSequenceThenComplete(ob,new Buffer("pong:/ping/get"));
-  }
+  }*/
 
   /*
   * Verify that if underlying httpclient throws an exception, 

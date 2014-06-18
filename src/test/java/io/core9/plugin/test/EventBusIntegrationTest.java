@@ -18,9 +18,8 @@ package io.core9.plugin.test;
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 
-import static org.vertx.testtools.VertxAssert.assertEquals;
-import static org.vertx.testtools.VertxAssert.assertTrue;
-import static org.vertx.testtools.VertxAssert.fail;
+import static org.junit.Assert.*;
+import static org.vertx.testtools.VertxAssert.testComplete;
 import io.vertx.rxcore.java.eventbus.RxEventBus;
 import io.vertx.rxcore.java.eventbus.RxMessage;
 
@@ -32,7 +31,6 @@ import org.junit.Test;
 import org.vertx.testtools.TestVerticle;
 
 import rx.Observable;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func2;
 import rx.observables.BlockingObservable;
@@ -56,7 +54,7 @@ public class EventBusIntegrationTest extends TestVerticle {
 
 		
 		
-		List<Observable<RxMessage<String>>> args = new ArrayList<Observable<RxMessage<String>>>();
+/*		List<Observable<RxMessage<String>>> args = new ArrayList<Observable<RxMessage<String>>>();
 		String[] myStringArray = {"A","B","C"};
 		
 		for(int i : range(0, 2)){
@@ -65,21 +63,51 @@ public class EventBusIntegrationTest extends TestVerticle {
 			args.add(obs1);
 		}
 		
-		Observable<RxMessage<String>> merged = Observable.merge(args);
+		Observable<RxMessage<String>> merged = Observable.merge(args);*/
+		
+		
+		Observable<RxMessage<String>> obs1 = rxEventBus.send("foo", "A");
+		Observable<RxMessage<String>> obs2 = rxEventBus.send("foo", "B");
+		Observable<RxMessage<String>> obs3 = rxEventBus.send("foo", "C");
+		Observable<RxMessage<String>> merged = Observable.merge(obs1, obs2,
+				obs3);
+		
+		
 		
 		Observable<String> result = merged.reduce("",
 				new Func2<String, RxMessage<String>, String>() {
 					@Override
 					public String call(String accum, RxMessage<String> reply) {
+						System.out.println(accum);
 						return accum + reply.body();
 					}
 				});
 		
 		
-		
-		
-		
+/*	 BlockingObservable<String> test = result.toBlocking();
 
+
+	 Iterable<String> rr = test.toIterable();
+	 
+	Iterator<String> itr = rr.iterator();
+
+	  while(itr.hasNext()) {
+	         Object element = itr.next();
+	         System.out.print(element + " ");
+	      }*/
+		
+/*		 BlockingObservable<String> test = result.toBlocking();
+		 
+		 test.last();
+		
+		BlockingObservable<String> obs = BlockingObservable.from(Observable.from("one", "two", "three"));
+
+        assertEquals("three", obs.last());
+
+	System.out.println("");
+	
+	
+	testComplete();*/
 		RxJavaUtils utils = new RxJavaUtils();
 		
 		utils.assertSequenceThenComplete(result.takeLast(1),

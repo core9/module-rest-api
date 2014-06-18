@@ -64,7 +64,8 @@ dependencies {
 	
 	testCompile 'io.vertx:testtools:2.0.3-final'
 	
-	compile 'com.netflix.rxjava:rxjava-core:0.17.6'
+	compile 'com.netflix.rxjava:rxjava-core:0.19.1'
+	// org compile 'com.netflix.rxjava:rxjava-core:0.17.6'
 	compile 'io.vertx:mod-rxvertx:1.0.0-beta3-SNAPSHOT'
 	
 	// start xeger
