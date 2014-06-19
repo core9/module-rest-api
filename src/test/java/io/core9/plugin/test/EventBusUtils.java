@@ -5,11 +5,11 @@ import static org.vertx.testtools.VertxAssert.assertTrue;
 import static org.vertx.testtools.VertxAssert.fail;
 import static org.vertx.testtools.VertxAssert.testComplete;
 import io.core9.plugin.rest.RestRequest;
-import io.core9.plugin.rest.RestRequestImpl;
 import io.core9.plugin.rest.RestRouter;
 import io.vertx.rxcore.java.eventbus.RxEventBus;
 import io.vertx.rxcore.java.eventbus.RxMessage;
 //import io.vertx.rxcore.test.integration.java.RxAssert;
+
 
 
 import java.util.ArrayList;
@@ -17,11 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
-
-import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 
 import org.vertx.java.core.Vertx;
 import org.vertx.java.core.VertxFactory;
@@ -36,6 +32,7 @@ public class EventBusUtils {
 	private Vertx vertx = VertxFactory.newVertx();
 	private final RxEventBus rxEventBus = new RxEventBus(vertx.eventBus());
 	private HashMap<String, Object> processedResult;
+	@SuppressWarnings("unused")
 	private RestRouter restRouter;
 
 	private static final EventBusUtils INSTANCE = new EventBusUtils();
@@ -71,6 +68,7 @@ public class EventBusUtils {
 		return result;
 	}
 
+	@SuppressWarnings("unused")
 	private String getRandomNumber() {
 
 		Random r = new Random();

@@ -1,6 +1,7 @@
 package io.core9.plugin.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import io.core9.core.PluginRegistry;
 import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
@@ -17,16 +18,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-
-import org.junit.Test;
-
 import rx.Observable;
-import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -35,41 +31,71 @@ public class TestRxJavaOnly {
 	private static PluginRegistry registry;
 	private static RestRouter restRouter;
 
-	@Test
+
 	public void testParallel() {
 
-		RestRequest request = new RestRequestImpl();
+		final RestRequest request = new RestRequestImpl();
 
 		request.setBasePath("/api");
 		request.setMethod(Method.GET);
 		request.setPath("/api/pet-docs");
 		request.setRxJavaVarName("var");
 		
-		RestRequest request1 = new RestRequestImpl();
+		final RestRequest request1 = new RestRequestImpl();
 
 		request1.setBasePath("/api");
 		request1.setMethod(Method.GET);
 		request1.setPath("/api/pet-docs");
-		request.setRxJavaVarName("var1");
-
-		Observable.from((Object) request, (Object) request).parallel(new Func1<Observable<Object>, Observable<Object>>() {
+		request1.setRxJavaVarName("var1");
+		
+		long t1 = System.nanoTime();
+		
+		Observable.from((Object) request, (Object) request1).parallel(new Func1<Observable<Object>, Observable<String>>() {
 
 			@Override
-			public Observable<Object> call(Observable<Object> t1) {
-				return t1;
+			public Observable<String> call(Observable<Object> t1) {
+				return t1.map(new Func1<Object, String>() {
+
+					@Override
+					public String call(Object t1) {
+						try {
+		                      // randomize to try and force non-determinism
+		                      // if we see these tests fail randomly then we have a problem with merging it all back together
+		                      int sec = (int) (Math.random() * 3000);
+							  System.out.println("Sleeping for : " + Integer.toString(sec));
+							  System.out.println(Thread.currentThread());
+							  Thread.sleep(sec);
+		                  } catch (InterruptedException e) {
+		                      System.out.println("*********** error!!!!!!!");
+		                      e.printStackTrace();
+		                      // TODO why is this exception not being thrown?
+		                      throw new RuntimeException(e);
+		                  }
+						RestRequest req = (RestRequest) t1;
+						Object response = restRouter.getResponse(req);
+						
+						return response.toString();
+					}
+					
+				});
+				
+				  
 			}
 
-		}).toBlocking().forEach(new Action1<Object>() {
+		}).toBlocking().forEach(new Action1<String>() {
 
 			@Override
-			public void call(Object t1) {
-				RestRequest obj = (RestRequest) t1;
+			public void call(String thingy) {
+//				RestRequest obj = (RestRequest) t1;
 				
-				System.out.println(obj.toJson());
+//				System.out.println(obj.toJson());
+				System.out.println(thingy);
 			}
 
 		});
 		System.out.println("parallel test completed ----------");
+		long t2 = System.nanoTime();
+	    System.out.println("Execution time: " + ((t2 - t1) * 1e-6) + " milliseconds");
 
 	}
 
@@ -182,12 +208,14 @@ public class TestRxJavaOnly {
 		TestRxJavaOnly routerTest = new TestRxJavaOnly();
 		routerTest.setUp();
 		long start = System.currentTimeMillis();
-		routerTest.restRouterGetApiForPet();
+/*		routerTest.restRouterGetApiForPet();
 		routerTest.restRouterGetPetById();
 		routerTest.restRouterGetfindByTags();
 		routerTest.restRouterGetOwnerOfPet();
 		routerTest.restRouterPostPet();
-		routerTest.restRouterPutPet();
+		routerTest.restRouterPutPet();*/
+		
+		routerTest.testParallel();
 
 		long elapsed = System.currentTimeMillis() - start;
 		System.out.println("elapsed time = " + elapsed + "ms");
