@@ -249,7 +249,9 @@ public class RestRequestImpl implements RestRequest {
 		json.put("method", type.name());
 		json.put("path", path);
 		json.put("params", new JSONObject(params));
-		json.put("host", vhost.getHostname());
+		if(vhost != null){
+			json.put("host", vhost.getHostname());	
+		}
 		json.put("rxJavaVarName", rxJavaVarName);
 		json.put("rxJavaMethod", rxJavaMethod);
 		
