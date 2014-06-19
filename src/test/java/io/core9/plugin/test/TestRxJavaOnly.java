@@ -71,10 +71,15 @@ public class TestRxJavaOnly {
 		                      // TODO why is this exception not being thrown?
 		                      throw new RuntimeException(e);
 		                  }
+						
+						
 						RestRequest req = (RestRequest) t1;
 						Object response = restRouter.getResponse(req);
 						
-						return response.toString();
+						JSONObject jsonResponse = new JSONObject();
+						jsonResponse.put(req.getRxJavaVarName(), response);
+						
+						return jsonResponse.toString();
 					}
 					
 				});
