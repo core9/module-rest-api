@@ -17,7 +17,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -31,26 +33,13 @@ public class TestRxJavaOnly {
 	private static PluginRegistry registry;
 	private static RestRouter restRouter;
 
+	public JSONObject testParallel(List<Object> args) {
 
-	public void testParallel() {
-
-		final RestRequest request = new RestRequestImpl();
-
-		request.setBasePath("/api");
-		request.setMethod(Method.GET);
-		request.setPath("/api/pet-docs");
-		request.setRxJavaVarName("var");
-		
-		final RestRequest request1 = new RestRequestImpl();
-
-		request1.setBasePath("/api");
-		request1.setMethod(Method.GET);
-		request1.setPath("/api/pet-docs");
-		request1.setRxJavaVarName("var1");
+		final JSONObject jsonResult = new JSONObject();
 		
 		long t1 = System.nanoTime();
-		
-		Observable.from((Object) request, (Object) request1).parallel(new Func1<Observable<Object>, Observable<String>>() {
+
+		Observable.from(args).parallel(new Func1<Observable<Object>, Observable<String>>() {
 
 			@Override
 			public Observable<String> call(Observable<Object> t1) {
@@ -58,50 +47,60 @@ public class TestRxJavaOnly {
 
 					@Override
 					public String call(Object t1) {
-						try {
-		                      // randomize to try and force non-determinism
-		                      // if we see these tests fail randomly then we have a problem with merging it all back together
-		                      int sec = (int) (Math.random() * 3000);
-							  System.out.println("Sleeping for : " + Integer.toString(sec));
-							  System.out.println(Thread.currentThread());
-							  Thread.sleep(sec);
-		                  } catch (InterruptedException e) {
-		                      System.out.println("*********** error!!!!!!!");
-		                      e.printStackTrace();
-		                      // TODO why is this exception not being thrown?
-		                      throw new RuntimeException(e);
-		                  }
-						
-						
 						RestRequest req = (RestRequest) t1;
 						Object response = restRouter.getResponse(req);
-						
+
 						JSONObject jsonResponse = new JSONObject();
-						jsonResponse.put(req.getRxJavaVarName(), response);
-						
+						jsonResponse.put("rxJavaVarName", req.getRxJavaVarName());
+						jsonResponse.put("reponse", response);
+
 						return jsonResponse.toString();
 					}
-					
+
 				});
-				
-				  
+
 			}
 
 		}).toBlocking().forEach(new Action1<String>() {
 
 			@Override
 			public void call(String thingy) {
-//				RestRequest obj = (RestRequest) t1;
+				//System.out.println(thingy);
+				JSONObject tmp = (JSONObject)JSONValue.parse(thingy);
 				
-//				System.out.println(obj.toJson());
-				System.out.println(thingy);
+				jsonResult.put((String) tmp.get("rxJavaVarName"), tmp);
 			}
 
 		});
 		System.out.println("parallel test completed ----------");
 		long t2 = System.nanoTime();
-	    System.out.println("Execution time: " + ((t2 - t1) * 1e-6) + " milliseconds");
+		System.out.println("Execution time: " + ((t2 - t1) * 1e-6) + " milliseconds");
 
+		return jsonResult;
+	}
+
+	public void runRestRequestTestParallel() {
+
+		final RestRequest request = new RestRequestImpl();
+
+		request.setBasePath("/api");
+		request.setMethod(Method.GET);
+		request.setPath("/api/pet-docs");
+		request.setRxJavaVarName("var");
+
+		final RestRequest request1 = new RestRequestImpl();
+
+		request1.setBasePath("/api");
+		request1.setMethod(Method.GET);
+		request1.setPath("/api/pet-docs");
+		request1.setRxJavaVarName("var1");
+
+		List<Object> args = new ArrayList<Object>();
+		args.add(request);
+		args.add(request1);
+		JSONObject result = testParallel(args);
+		
+		System.out.println(result);
 	}
 
 	public void setUp() {
@@ -213,14 +212,14 @@ public class TestRxJavaOnly {
 		TestRxJavaOnly routerTest = new TestRxJavaOnly();
 		routerTest.setUp();
 		long start = System.currentTimeMillis();
-/*		routerTest.restRouterGetApiForPet();
+		routerTest.restRouterGetApiForPet();
 		routerTest.restRouterGetPetById();
 		routerTest.restRouterGetfindByTags();
 		routerTest.restRouterGetOwnerOfPet();
 		routerTest.restRouterPostPet();
-		routerTest.restRouterPutPet();*/
-		
-		routerTest.testParallel();
+		routerTest.restRouterPutPet();
+
+		routerTest.runRestRequestTestParallel();
 
 		long elapsed = System.currentTimeMillis() - start;
 		System.out.println("elapsed time = " + elapsed + "ms");
