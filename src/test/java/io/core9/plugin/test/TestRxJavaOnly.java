@@ -7,6 +7,7 @@ import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
 import io.core9.plugin.rest.RestRequest;
 import io.core9.plugin.rest.RestRequestImpl;
+import io.core9.plugin.rest.RestResourceRunParallel;
 import io.core9.plugin.rest.RestRouter;
 import io.core9.plugin.rest.RestRouterImpl;
 import io.core9.plugin.server.request.Method;
@@ -24,60 +25,13 @@ import java.util.List;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 public class TestRxJavaOnly {
 
 	private static PluginRegistry registry;
 	private static RestRouter restRouter;
 
-	public JSONObject testParallel(List<Object> args) {
 
-		final JSONObject jsonResult = new JSONObject();
-		
-		long t1 = System.nanoTime();
-
-		Observable.from(args).parallel(new Func1<Observable<Object>, Observable<String>>() {
-
-			@Override
-			public Observable<String> call(Observable<Object> t1) {
-				return t1.map(new Func1<Object, String>() {
-
-					@Override
-					public String call(Object t1) {
-						RestRequest req = (RestRequest) t1;
-						Object response = restRouter.getResponse(req);
-
-						JSONObject jsonResponse = new JSONObject();
-						jsonResponse.put("rxJavaVarName", req.getRxJavaVarName());
-						jsonResponse.put("reponse", response);
-
-						return jsonResponse.toString();
-					}
-
-				});
-
-			}
-
-		}).toBlocking().forEach(new Action1<String>() {
-
-			@Override
-			public void call(String thingy) {
-				//System.out.println(thingy);
-				JSONObject tmp = (JSONObject)JSONValue.parse(thingy);
-				
-				jsonResult.put((String) tmp.get("rxJavaVarName"), tmp);
-			}
-
-		});
-		System.out.println("parallel test completed ----------");
-		long t2 = System.nanoTime();
-		System.out.println("Execution time: " + ((t2 - t1) * 1e-6) + " milliseconds");
-
-		return jsonResult;
-	}
 
 	public void runRestRequestTestParallel() {
 
@@ -98,7 +52,7 @@ public class TestRxJavaOnly {
 		List<Object> args = new ArrayList<Object>();
 		args.add(request);
 		args.add(request1);
-		JSONObject result = testParallel(args);
+		JSONObject result = RestResourceRunParallel.runParallel(restRouter, args);
 		
 		System.out.println(result);
 	}
