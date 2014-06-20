@@ -56,5 +56,10 @@ public class RestResourceRunParallel {
 
 		return jsonResult;
 	}
+
+	public static JSONObject runSerial(RestRouter restRouter, List<Object> args) {
+
+		return null;
+	}
 	
 }

@@ -26,14 +26,14 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
-public class TestRxJavaOnly {
+public class TestRxJavaSerial {
 
 	private static PluginRegistry registry;
 	private static RestRouter restRouter;
 
 
 
-	public void runRestRequestTestParallel() {
+	public void runRestRequestTestSerial() {
 
 		final RestRequest request = new RestRequestImpl();
 
@@ -52,7 +52,7 @@ public class TestRxJavaOnly {
 		List<Object> args = new ArrayList<Object>();
 		args.add(request);
 		args.add(request1);
-		JSONObject result = RestResourceRunParallel.runParallel(restRouter, args);
+		JSONObject result = RestResourceRunParallel.runSerial(restRouter, args);
 		
 		System.out.println(result);
 	}
@@ -163,7 +163,7 @@ public class TestRxJavaOnly {
 
 	public static void main(String[] args) {
 
-		TestRxJavaOnly routerTest = new TestRxJavaOnly();
+		TestRxJavaSerial routerTest = new TestRxJavaSerial();
 		routerTest.setUp();
 		long start = System.currentTimeMillis();
 		routerTest.restRouterGetApiForPet();
@@ -173,7 +173,7 @@ public class TestRxJavaOnly {
 		routerTest.restRouterPostPet();
 		routerTest.restRouterPutPet();
 
-		routerTest.runRestRequestTestParallel();
+		routerTest.runRestRequestTestSerial();
 
 		long elapsed = System.currentTimeMillis() - start;
 		System.out.println("elapsed time = " + elapsed + "ms");
@@ -183,7 +183,7 @@ public class TestRxJavaOnly {
 	}
 
 	static String readFile(String file) {
-		URL main = TestRxJavaOnly.class.getResource(file);
+		URL main = TestRxJavaSerial.class.getResource(file);
 		File path = new File(main.getPath());
 		byte[] encoded = null;
 		try {
