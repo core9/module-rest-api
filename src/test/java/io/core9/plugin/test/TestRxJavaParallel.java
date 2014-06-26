@@ -7,7 +7,7 @@ import io.core9.core.PluginRegistryImpl;
 import io.core9.core.boot.BootstrapFramework;
 import io.core9.plugin.rest.RestRequest;
 import io.core9.plugin.rest.RestRequestImpl;
-import io.core9.plugin.rest.RestResourceRunParallel;
+import io.core9.plugin.rest.RestResourceRunRxJavaProcess;
 import io.core9.plugin.rest.RestRouter;
 import io.core9.plugin.rest.RestRouterImpl;
 import io.core9.plugin.server.request.Method;
@@ -52,7 +52,7 @@ public class TestRxJavaParallel {
 		List<Object> args = new ArrayList<Object>();
 		args.add(request);
 		args.add(request1);
-		JSONObject result = RestResourceRunParallel.runParallel(restRouter, args);
+		JSONObject result = RestResourceRunRxJavaProcess.runParallel(restRouter, args);
 		
 		System.out.println(result);
 	}
