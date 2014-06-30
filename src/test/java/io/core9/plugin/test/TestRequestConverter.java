@@ -8,7 +8,6 @@ import io.core9.plugin.rest.RestRequest;
 import io.core9.plugin.rest.RestRequestImpl;
 import io.core9.plugin.rest.RestRouter;
 import io.core9.plugin.rest.RestRouterImpl;
-import io.core9.plugin.server.VirtualHost;
 import io.core9.plugin.server.request.Method;
 
 import java.util.HashMap;
