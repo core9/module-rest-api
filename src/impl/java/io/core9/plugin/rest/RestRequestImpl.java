@@ -264,7 +264,7 @@ public class RestRequestImpl implements RestRequest {
 		this.path = (String) json.get("path");
 		this.rxJavaVarName = (String) json.get("rxJavaVarName");
 		this.rxJavaMethod = (String) json.get("rxJavaMethod");
-		this.vhost = new VirtualHost((String) json.get("host"));
+		//this.vhost = new VirtualHost((String) json.get("host"));
 		this.type = methods.get((String) json.get("method"));
 
 		JSONObject tmp = (JSONObject) json.get("params");

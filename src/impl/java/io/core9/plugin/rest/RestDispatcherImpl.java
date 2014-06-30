@@ -2,9 +2,9 @@ package io.core9.plugin.rest;
 
 import io.core9.module.auth.AuthenticationPlugin;
 import io.core9.plugin.server.HostManager;
+import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
-import io.core9.plugin.server.vertx.VertxServer;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
 
@@ -12,7 +12,7 @@ import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
 public class RestDispatcherImpl implements RestDispatcher {
 
 	@InjectPlugin
-	private VertxServer server;
+	private Server server;
 
 	@InjectPlugin
 	private HostManager manager;

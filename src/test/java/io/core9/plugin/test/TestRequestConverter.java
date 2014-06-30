@@ -42,7 +42,7 @@ public class TestRequestConverter {
 	public void createRequest() {
 
 		RestRequest req = new RestRequestImpl();
-		VirtualHost virtualHost = new VirtualHost("localhost");
+		//VirtualHost virtualHost = new VirtualHost("localhost");
 		Map<String, Object> params = new HashMap<String, Object>();
 		
 		params.put("user", "user1");
@@ -51,7 +51,7 @@ public class TestRequestConverter {
 		req.setBasePath(basePath);
 		req.setPath("/test");
 		req.setParams(params);
-		req.setVirtualHost(virtualHost);
+		//req.setVirtualHost(virtualHost);
 
 		JSONObject jsonRequest = req.toJson();
 		
