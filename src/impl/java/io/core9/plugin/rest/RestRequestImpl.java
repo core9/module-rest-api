@@ -17,8 +17,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
-import org.vertx.java.core.json.JsonArray;
-import org.vertx.java.core.json.JsonObject;
+
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -84,7 +83,7 @@ public class RestRequestImpl implements RestRequest {
 		if (bodyAsList != null) {
 			return bodyAsList;
 		}
-		return Arrays.asList(new JsonArray(body).toArray());
+		return null;
 	}
 
 	@Override
@@ -93,7 +92,7 @@ public class RestRequestImpl implements RestRequest {
 		if (bodyAsMap != null) {
 			return bodyAsMap;
 		}
-		return new JsonObject(body).toMap();
+		return null;
 	}
 
 	@Override
