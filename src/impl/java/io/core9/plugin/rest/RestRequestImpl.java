@@ -92,6 +92,7 @@ public class RestRequestImpl implements RestRequest {
 		if (bodyAsMap != null) {
 			return bodyAsMap;
 		}
+		
 		return null;
 	}
 
