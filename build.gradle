@@ -43,7 +43,7 @@ dependencies {
 	// this is here only because of the json stuff in RestRequestImpl
 	compile 'io.core9:module-hostmanager:+'
 	compile 'io.core9:module-server:+'
-	compile 'io.core9:module-server-undertow:+'
+	testCompile 'io.core9:module-server-undertow:+'
 /*	compile 'io.core9:module-server-vertx:+'
 	compile "io.vertx:vertx-core:2.1"
 	compile "io.vertx:vertx-platform:2.1"
