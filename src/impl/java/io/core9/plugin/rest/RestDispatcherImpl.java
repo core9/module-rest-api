@@ -33,7 +33,12 @@ public class RestDispatcherImpl implements RestDispatcher {
 				Object result = restRouter.getResponse(RestUtils.convertServerRequestToRestRequest("/api", request));
 
 				System.out.println("Result is : " + result);
-				//request.getResponse().sendJsonMap(result);
+				
+				request.getResponse().putHeader("Access-Control-Allow-Origin", "*");
+				request.getResponse().putHeader("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
+				request.getResponse().putHeader("Access-Control-Allow-Credentials", "true");
+				request.getResponse().putHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+				request.getResponse().putHeader("Access-Control-Max-Age", "1209600");
 				request.getResponse().end((String) result.toString());
 			}
 		});
