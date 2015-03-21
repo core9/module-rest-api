@@ -8,7 +8,7 @@ apply from: 'http://www.core9.io/buildfiles/gradle/publish.gradle'
 buildscript { apply from: 'http://www.core9.io/buildfiles/gradle/publish-build.gradle' }
 
 /**
- * @TODO Somehow cannot be moved to publish.gradle
+ * @TODO Somehow cannot be moved to publish.gradle need to bump
  * bump
  */
 task publishBintray (type: org._10ne.gradle.rest.RestTask, dependsOn: bintrayUpload) {
