@@ -38,6 +38,7 @@ public class RestUtils {
 		restResource.setResourceObject(restResourceConfig.getSwaggerConfig(), resourceObject);
 		restResource.setModelPackage(restResourceConfig.getModelPackage());
 
+		//bump
 		resourceMap.put(RestUtils.getResourcePath(resourceObject.getClass()), restResource);
 
 		return resourceMap;
