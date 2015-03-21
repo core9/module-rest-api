@@ -9,6 +9,7 @@ buildscript { apply from: 'http://www.core9.io/buildfiles/gradle/publish-build.g
 
 /**
  * @TODO Somehow cannot be moved to publish.gradle
+ * bump
  */
 task publishBintray (type: org._10ne.gradle.rest.RestTask, dependsOn: bintrayUpload) {
 	httpMethod = 'post'
